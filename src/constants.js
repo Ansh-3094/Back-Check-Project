@@ -1,2 +1,2 @@
-//databse name DB_NAME
+//database name DB_NAME
 export const DB_NAME = "videotube";
