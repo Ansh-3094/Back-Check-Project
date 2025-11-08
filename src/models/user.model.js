@@ -71,6 +71,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 //This is JWT(what is payload?)
+// Syntax:   jwt.sign(payload, secretKey, options)
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {

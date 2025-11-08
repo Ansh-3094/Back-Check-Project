@@ -1,13 +1,13 @@
 //this basically is a WRAPPAR that we can use it when needed.More of a Utility code
 //This is ONE way.
 
-const asynceHandler = (requestHandler) => {
-  (req, res, next) => {
+const asyncHandler = (requestHandler) => {
+  return (req, res, next) => {
     Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
   };
 };
 
-export { asynceHandler };
+export { asyncHandler };
 
 //This is a example of higher order function
 /* const asyncHandler = () => {}

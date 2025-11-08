@@ -16,4 +16,10 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); //To handle DATA
 app.use(express.static("public")); //This is for Files likePDFs,Photos that we want to store as public files.
 app.use(cookieParser());
 
+//routes import
+import userRouter from "./routes/user.routes.js";
+
+//routes declaration
+app.use("/api/v1/users", userRouter);
+
 export { app };
