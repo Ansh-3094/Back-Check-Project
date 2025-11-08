@@ -65,13 +65,13 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-//This is for compre user password and stored password
+//Authentication:   This is for compare user password and stored password
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
 //This is JWT(what is payload?)
-userSchema.models.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -85,7 +85,7 @@ userSchema.models.generateAccessToken = function () {
     }
   );
 };
-userSchema.models.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
