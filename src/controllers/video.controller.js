@@ -109,14 +109,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
     title,
     description,
     duration: videoFile.duration,
-    videoFile: {
-      url: videoFile.url,
-      public_id: videoFile.public_id,
-    },
-    thumbnail: {
-      url: thumbnail.url,
-      public_id: thumbnail.public_id,
-    },
+    videoFile: videoFile.url,
+    thumbnail: thumbnail.url,
     owner: req.user._id,
     isPublished: false,
   });
