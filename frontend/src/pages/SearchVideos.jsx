@@ -6,6 +6,7 @@ import { getAllVideos, makeVideosNull } from "../store/Slices/videoSlice";
 import { FaFilter } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { useParams, useSearchParams } from "react-router-dom";
+import { Container } from "../components";
 
 function SearchVideos() {
   const loading = useSelector((state) => state.video?.loading);
@@ -42,53 +43,57 @@ function SearchVideos() {
   }
 
   return (
-    <>
-      <div
-        className="w-full h-10 flex items-center font-bold justify-end cursor-pointer px-8"
-        onClick={() => setFilterOpen((prev) => !prev)}
-      >
-        <span className="text-white hover:text-purple-500">Filters</span>
-        <FaFilter size={20} className="text-purple-500 hover:text-purple-800" />
-      </div>
-      <div className="w-full text-white">
+    <Container>
+      <div className="app-panel relative rounded-xl p-3 sm:p-4 text-white">
+        <div
+          className="mb-3 flex h-10 cursor-pointer items-center justify-end gap-2 px-2 font-semibold"
+          onClick={() => setFilterOpen((prev) => !prev)}
+        >
+          <span className="text-white hover:text-(--accent)">Filters</span>
+          <FaFilter size={20} className="text-(--accent)" />
+        </div>
+
         {filterOpen && (
-          <div className="w-full absolute bg-transparent">
-            <div className="max-w-sm border border-slate-800 rounded bg-[#222222] fixed mx-auto z-50 inset-x-0 h-96 p-5">
-              <h1 className="font-semibold text-lg">Search filters</h1>
+          <div className="absolute left-0 top-14 z-40 flex w-full justify-center bg-transparent px-3">
+            <div className="relative h-96 w-full max-w-sm rounded-lg border border-slate-700 bg-(--surface-strong) p-5 shadow-xl">
+              <h1 className="text-lg font-semibold">Search filters</h1>
               <IoCloseCircleOutline
                 size={25}
                 className="absolute right-5 top-5 cursor-pointer"
                 onClick={() => setFilterOpen((prev) => !prev)}
               />
-              <table className="mt-4">
-                <tr className="w-full text-start border-b">
-                  <th>SortBy</th>
-                </tr>
-                <tr className="flex flex-col gap-2 text-slate-400 cursor-pointer">
-                  <td onClick={() => handleSortParams("createdAt", "desc")}>
-                    Upload date <span className="text-xs">(Latest)</span>
-                  </td>
-                  <td onClick={() => handleSortParams("createdAt", "asc")}>
-                    Upload date <span className="text-xs">(Oldest)</span>
-                  </td>
-                  <td onClick={() => handleSortParams("views", "asc")}>
-                    View count <span className="text-xs">(Low to High)</span>
-                  </td>
-                  <td onClick={() => handleSortParams("views", "desc")}>
-                    View count <span className="text-xs">(High to Low)</span>
-                  </td>
-                  <td onClick={() => handleSortParams("duration", "asc")}>
-                    Duration <span className="text-xs">(Low to High)</span>
-                  </td>
-                  <td onClick={() => handleSortParams("duration", "desc")}>
-                    Duration <span className="text-xs">(High to Low)</span>
-                  </td>
-                </tr>
+              <table className="mt-4 w-full">
+                <tbody>
+                  <tr className="w-full border-b text-start">
+                    <th className="pb-2 text-left">SortBy</th>
+                  </tr>
+                  <tr className="flex cursor-pointer flex-col gap-2 pt-2 text-slate-300">
+                    <td onClick={() => handleSortParams("createdAt", "desc")}>
+                      Upload date <span className="text-xs">(Latest)</span>
+                    </td>
+                    <td onClick={() => handleSortParams("createdAt", "asc")}>
+                      Upload date <span className="text-xs">(Oldest)</span>
+                    </td>
+                    <td onClick={() => handleSortParams("views", "asc")}>
+                      View count <span className="text-xs">(Low to High)</span>
+                    </td>
+                    <td onClick={() => handleSortParams("views", "desc")}>
+                      View count <span className="text-xs">(High to Low)</span>
+                    </td>
+                    <td onClick={() => handleSortParams("duration", "asc")}>
+                      Duration <span className="text-xs">(Low to High)</span>
+                    </td>
+                    <td onClick={() => handleSortParams("duration", "desc")}>
+                      Duration <span className="text-xs">(High to Low)</span>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
         )}
-        <div className="grid h-screen xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 text-white overflow-y-scroll">
+
+        <div className="mb-20 grid max-h-[calc(100vh-180px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 xl:grid-cols-3">
           {videos &&
             videos?.docs?.map((video) => (
               <VideoList
@@ -105,7 +110,7 @@ function SearchVideos() {
             ))}
         </div>
       </div>
-    </>
+    </Container>
   );
 }
 

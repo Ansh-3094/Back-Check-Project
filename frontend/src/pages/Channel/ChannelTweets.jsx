@@ -14,7 +14,7 @@ function ChannelTweets() {
   }, [dispatch, userId]);
 
   return (
-    <>
+    <div className="space-y-3">
       {authId === userId && <TweetAndComment tweet={true} />}
       {tweets?.map((tweet) => (
         <TweetsList
@@ -28,7 +28,7 @@ function ChannelTweets() {
           isLiked={tweet?.isLiked}
         />
       ))}
-    </>
+    </div>
   );
 }
 

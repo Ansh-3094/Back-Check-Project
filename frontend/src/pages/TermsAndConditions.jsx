@@ -6,8 +6,8 @@ const TermsAndConditions = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <div className="container mx-auto flex justify-center items-center h-screen">
-      <div className="bg-black border border-slate-800 text-white rounded-lg p-8 shadow-lg">
+    <div className="container mx-auto flex min-h-screen items-center justify-center p-4">
+      <div className="app-panel w-full max-w-2xl rounded-xl p-8 text-white shadow-lg">
         <div className="mb-5 ">
           <Logo />
         </div>
@@ -41,7 +41,7 @@ const TermsAndConditions = () => {
           {isChecked && (
             <Link
               to="/"
-              className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded"
+              className="rounded bg-(--brand) px-4 py-2 font-bold text-white hover:bg-(--brand-strong)"
             >
               Continue
             </Link>
