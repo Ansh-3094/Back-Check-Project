@@ -80,18 +80,20 @@ function Sidebar() {
 
   return (
     <>
-      <div className="sm:block hidden">
-        <div className="text-white lg:w-56 md:w-44 w-16 sm:p-3 p-2 border-slate-600 border-r h-screen flex flex-col justify-between">
-          <div className="flex flex-col gap-4 mt-5">
+      <div className="hidden sm:block">
+        <div className="app-panel sticky top-[88px] flex h-[calc(100vh-110px)] w-16 flex-col justify-between rounded-xl p-2 text-[var(--text)] md:w-48 lg:w-56 sm:p-3">
+          <div className="mt-2 flex flex-col gap-3">
             {sidebarTopItems.map((item) => (
               <NavLink
                 to={item.url}
                 key={item.title}
-                className={({ isActive }) => (isActive ? "bg-purple-500" : "")}
+                className={({ isActive }) =>
+                  isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
+                }
               >
-                <div className="flex items-center gap-2 justify-center sm:justify-start hover:bg-purple-500 cursor-pointer py-1 px-2 border border-slate-600">
+                <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
                   {item.icon}
-                  <span className="text-base hidden md:block">
+                  <span className="hidden text-sm font-medium md:block">
                     {item.title}
                   </span>
                 </div>
@@ -99,33 +101,39 @@ function Sidebar() {
             ))}
           </div>
 
-          <div className="space-y-4 mb-10">
+          <div className="mb-2 space-y-3">
             {username && (
               <div
-                className="flex items-center gap-2 justify-center sm:justify-start hover:bg-purple-500 cursor-pointer py-1 px-2 border border-slate-600"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start"
                 onClick={() => logout()}
               >
                 <IoMdLogOut size={25} />
-                <span className="text-base hidden md:block">Logout</span>
+                <span className="hidden text-sm font-medium md:block">
+                  Logout
+                </span>
               </div>
             )}
-            <div className="flex items-center gap-2 justify-center sm:justify-start hover:bg-purple-500 cursor-pointer py-1 px-2 border border-slate-600">
+            <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
               <CiSettings size={25} />
-              <span className="text-base hidden md:block">Settings</span>
+              <span className="hidden text-sm font-medium md:block">
+                Settings
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* for mobile sidebar is bottom bar*/}
-      <div className="border-t-2 text-white h-16 sm:hidden z-20 p-1 w-full flex justify-around fixed bottom-0 bg-[#0E0F0F]">
+      <div className="fixed bottom-0 z-20 flex h-16 w-full justify-around border-t border-[var(--line)] bg-[rgba(15,17,21,0.95)] p-1 text-[var(--text)] backdrop-blur-xl sm:hidden">
         {bottomBarItems.map((item) => (
           <NavLink
             to={item.url}
             key={item.title}
-            className={({ isActive }) => (isActive ? "text-purple-500" : "")}
+            className={({ isActive }) =>
+              isActive ? "text-[var(--brand)]" : "text-[var(--text-dim)]"
+            }
           >
-            <div className="flex flex-col items-center gap-1 cursor-pointer p-1">
+            <div className="flex cursor-pointer flex-col items-center gap-1 p-1">
               {item.icon}
               <span className="text-sm">{item.title}</span>
             </div>

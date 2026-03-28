@@ -36,8 +36,8 @@ function Login() {
 
   return (
     <>
-      <div className="w-full h-screen text-white p-3 flex justify-center items-start">
-        <div className="flex max-w-5xl flex-col space-y-5 justify-center items-center border border-slate-600 p-3 mt-20">
+      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white">
+        <div className="app-panel mt-20 flex w-full max-w-xl flex-col items-center justify-center space-y-5 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2 mt-5">
             <Logo />
           </div>
@@ -66,8 +66,8 @@ function Login() {
 
             <Button
               type="submit"
-              bgColor="bg-purple-500"
-              className="w-full sm:py-3 py-2 hover:bg-purple-700 text-lg"
+              bgColor="bg-(--brand)"
+              className="w-full py-2 text-lg hover:bg-(--brand-strong) sm:py-3"
             >
               Login
             </Button>
@@ -76,7 +76,7 @@ function Login() {
               Don&apos;t have an account?{" "}
               <Link
                 to={"/signup"}
-                className="text-purple-600 cursor-pointer hover:opacity-70"
+                className="cursor-pointer text-(--accent) hover:opacity-70"
               >
                 SignUp
               </Link>

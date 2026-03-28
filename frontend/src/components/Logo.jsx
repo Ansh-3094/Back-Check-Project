@@ -7,7 +7,7 @@ function Logo({ size = "30" }) {
     <>
       <Link to={"/"} className="flex gap-2 items-center">
         <IoIosVideocam size={size} color="#A855F7" />
-        <span className="font-bold text-white">STREAMIFY</span>
+        <span className="font-bold text-white">NAMEEEEE</span>
       </Link>
     </>
   );

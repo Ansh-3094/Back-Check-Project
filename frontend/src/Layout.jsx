@@ -5,17 +5,17 @@ import Sidebar from "./components/Header/Sidebar";
 
 function Layout() {
   return (
-    <>
+    <div className="min-h-screen">
       <Navbar />
-      <div className="sm:flex flex-none">
-        <div className="">
+      <div className="app-shell mx-auto flex w-full max-w-[1600px] gap-4 px-2 pb-20 pt-3 sm:px-4 sm:pb-4">
+        <div>
           <Sidebar />
         </div>
-        <div className="sm:flex-1">
+        <div className="flex-1 min-w-0">
           <Outlet />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

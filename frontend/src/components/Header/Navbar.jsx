@@ -42,66 +42,71 @@ function Navbar() {
 
   return (
     <>
-      <nav className="w-full bg-[#0E0F0F] flex justify-between items-center p-4 sm:gap-5 gap-2 border-b-2 border-gray-500 sticky top-0 z-50">
-        <div className="flex items-center justify-center gap-2 cursor-pointer">
-          <Logo />
-        </div>
+      <nav className="sticky top-0 z-50 w-full border-b border-[var(--line)] bg-[rgba(15,17,21,0.88)] px-3 py-3 backdrop-blur-xl sm:px-5">
+        <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3 sm:gap-5">
+          <div className="flex items-center justify-center gap-2 cursor-pointer">
+            <Logo />
+          </div>
 
-        {/* search for large screens */}
-        <div className="w-full sm:w-1/3 hidden sm:block">
-          <Search />
-        </div>
+          {/* search for large screens */}
+          <div className="hidden w-full sm:block sm:w-2/5 lg:w-1/3">
+            <Search />
+          </div>
 
-        {/* search for small screens */}
-        <div className="text-white w-full inline-flex justify-end sm:hidden pr-4">
-          <CiSearch
-            size={30}
-            fontWeight={"bold"}
-            onClick={() => setOpenSearch((prev) => !prev)}
-          />
-          {openSearch && (
-            <SearchForSmallScreen
-              open={openSearch}
-              setOpenSearch={setOpenSearch}
+          {/* search for small screens */}
+          <div className="inline-flex w-full justify-end pr-2 text-[var(--text)] sm:hidden">
+            <CiSearch
+              size={30}
+              fontWeight={"bold"}
+              onClick={() => setOpenSearch((prev) => !prev)}
             />
+            {openSearch && (
+              <SearchForSmallScreen
+                open={openSearch}
+                setOpenSearch={setOpenSearch}
+              />
+            )}
+          </div>
+
+          {/* login and signup butons for larger screens */}
+          {authStatus ? (
+            <div className="hidden sm:block rounded-full border border-[var(--line)] p-0.5">
+              <img
+                src={profileImg}
+                alt="profileImg"
+                className="rounded-full w-10 h-10 object-cover"
+              />
+            </div>
+          ) : (
+            <div className="hidden space-x-2 sm:block">
+              <Link to={"/login"}>
+                <Button className="rounded-md border border-[var(--line)] bg-[rgba(255,255,255,0.02)] px-4 py-2 text-sm text-[var(--text)] transition hover:bg-[rgba(255,255,255,0.08)]">
+                  Login
+                </Button>
+              </Link>
+              <Link to={"/signup"}>
+                <Button className="rounded-md border border-[var(--brand)] bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[#062015] transition hover:bg-[var(--brand-strong)]">
+                  Sign up
+                </Button>
+              </Link>
+            </div>
           )}
-        </div>
 
-        {/* login and signup butons for larger screens */}
-        {authStatus ? (
-          <div className="rounded-full sm:block hidden">
-            <img
-              src={profileImg}
-              alt="profileImg"
-              className="rounded-full w-10 h-10 object-cover"
-            />
-          </div>
-        ) : (
-          <div className="space-x-2 sm:block hidden">
-            <Link to={"/login"}>
-              <Button className="bg-[#222222] border hover:bg-black border-slate-500 sm:px-4 sm:py-2 p-2">
-                Login
-              </Button>
-            </Link>
-            <Link to={"/signup"}>
-              <Button className="font-semibold border hover:bg-[#222222] border-slate-500 sm:px-4 sm:py-2 ">
-                Sign up
-              </Button>
-            </Link>
-          </div>
-        )}
-
-        {/* hamburger for smaller screens */}
-        <div className="sm:hidden block">
-          <div className="text-white ">
-            <SlMenu size={24} onClick={() => setToggleMenu((prev) => !prev)} />
+          {/* hamburger for smaller screens */}
+          <div className="sm:hidden block">
+            <div className="text-[var(--text)]">
+              <SlMenu
+                size={24}
+                onClick={() => setToggleMenu((prev) => !prev)}
+              />
+            </div>
           </div>
         </div>
 
         {/* Side bar for smaller screens */}
         {toggleMenu && (
-          <div className="fixed right-0 top-0 text-white flex flex-col border-l h-screen w-[70%] bg-[#0F0F0F] sm:hidden rounded-lg outline-none">
-            <div className="w-full border-b h-20 flex items-center mb-2 justify-between px-3">
+          <div className="fixed right-0 top-0 flex h-screen w-[78%] flex-col border-l border-[var(--line)] bg-[var(--bg-soft)] text-[var(--text)] shadow-2xl sm:hidden">
+            <div className="mb-2 flex h-20 w-full items-center justify-between border-b border-[var(--line)] px-3">
               <div className="flex items-center gap-2">
                 <Logo />
               </div>
@@ -111,7 +116,7 @@ function Navbar() {
               />
             </div>
 
-            <div className="flex flex-col justify-between h-full py-5 px-3 j">
+            <div className="flex h-full flex-col justify-between px-3 py-5">
               <div className="flex flex-col gap-5">
                 {sidePanelItems.map((item) => (
                   <NavLink
@@ -119,10 +124,10 @@ function Navbar() {
                     key={item.title}
                     onClick={() => setToggleMenu((prev) => !prev)}
                     className={({ isActive }) =>
-                      isActive ? "bg-purple-500" : ""
+                      isActive ? "rounded-md bg-[rgba(255,59,48,0.22)]" : ""
                     }
                   >
-                    <div className="flex items-center border border-slate-500 gap-5 px-3 py-1 hover:bg-purple-500">
+                    <div className="flex items-center gap-5 rounded-md border border-[var(--line)] px-3 py-2 transition hover:bg-[rgba(255,59,48,0.14)]">
                       <div>{item.icon}</div>
                       <span className="text-lg">{item.title}</span>
                     </div>
@@ -133,19 +138,19 @@ function Navbar() {
               {!authStatus ? (
                 <div className="flex flex-col space-y-5 mb-3">
                   <Link to={"/login"}>
-                    <Button className="w-full bg-[#222222] border hover:bg-white hover:text-black border-slate-500 py-1 px-3">
+                    <Button className="w-full rounded-md border border-[var(--line)] bg-[rgba(255,255,255,0.03)] px-3 py-2 transition hover:bg-[rgba(255,255,255,0.1)]">
                       Login
                     </Button>
                   </Link>
                   <Link to={"/signup"}>
-                    <Button className=" w-full font-semibold border border-slate-500 hover:bg-white hover:text-black py-1 px-3">
+                    <Button className="w-full rounded-md border border-[var(--brand)] bg-[var(--brand)] px-3 py-2 font-semibold text-[#062015] transition hover:bg-[var(--brand-strong)]">
                       Sign up
                     </Button>
                   </Link>
                 </div>
               ) : (
                 <div
-                  className="flex gap-2 justify-start items-start cursor-pointer py-1 px-2 border border-slate-600"
+                  className="flex cursor-pointer items-start justify-start gap-2 rounded-md border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,255,255,0.06)]"
                   onClick={() => logout()}
                 >
                   <IoMdLogOut size={25} />

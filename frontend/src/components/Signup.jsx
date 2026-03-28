@@ -40,8 +40,8 @@ function SignUp() {
 
   return (
     <>
-      <div className="w-full h-screen text-white p-3 flex justify-center items-start sm:mt-8">
-        <div className="flex flex-col space-y-2 justify-center items-center border border-slate-600 p-3">
+      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8">
+        <div className="app-panel flex w-full max-w-xl flex-col items-center justify-center space-y-2 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2">
             <Logo />
           </div>
@@ -49,7 +49,7 @@ function SignUp() {
             onSubmit={handleSubmit(submit)}
             className="space-y-4 p-2 text-sm sm:w-96 w-full"
           >
-            <div className="w-full relative h-28 bg-[#222222]">
+            <div className="relative h-28 w-full bg-(--surface-strong)">
               <div className="w-full h-full">
                 <GetImagePreview
                   name="coverImage"
@@ -57,7 +57,7 @@ function SignUp() {
                   className="w-full h-28 object-cover border-none border-slate-900"
                   cameraIcon
                 />
-                <div className="text-sm absolute right-2 bottom-2 hover:text-purple-500 cursor-default">
+                <div className="absolute bottom-2 right-2 cursor-default text-sm hover:text-(--accent)">
                   cover Image
                 </div>
               </div>
@@ -157,8 +157,8 @@ function SignUp() {
 
             <Button
               type="submit"
-              bgColor="bg-purple-500"
-              className="w-full sm:py-3 py-2 hover:bg-purple-700 text-lg"
+              bgColor="bg-(--brand)"
+              className="w-full py-2 text-lg hover:bg-(--brand-strong) sm:py-3"
             >
               Signup
             </Button>
@@ -167,7 +167,7 @@ function SignUp() {
               Already have an account?{" "}
               <Link
                 to={"/login"}
-                className="text-purple-600 cursor-pointer hover:opacity-70"
+                className="cursor-pointer text-(--accent) hover:opacity-70"
               >
                 Login
               </Link>
