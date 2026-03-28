@@ -30,8 +30,10 @@ function Channel() {
         />
       )}
       <ChannelNavigate username={username} />
-      <div className="overflow-y-scroll h-128 sm:h-96 mb-20 sm:mb-0">
-        <Outlet />
+      <div className="app-panel mt-3 overflow-hidden rounded-xl p-3 sm:p-4">
+        <div className="mb-20 max-h-[calc(100vh-220px)] overflow-y-auto sm:mb-0">
+          <Outlet />
+        </div>
       </div>
     </>
   );

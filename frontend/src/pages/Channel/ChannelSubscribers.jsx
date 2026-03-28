@@ -18,13 +18,13 @@ function ChannelSubscribers() {
   }, [dispatch, channelId]);
 
   return (
-    <>
+    <div className="space-y-2">
       {subscribers?.map((subscriber) => (
         <Link
           key={subscriber?.subscriber?._id}
-          className="flex border-b border-slate-500 px-3 py-1 justify-between items-center text-white"
+          className="flex items-center justify-between rounded-md border border-slate-700/70 bg-[var(--surface-strong)] px-3 py-2 text-white"
         >
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <Avatar
               src={subscriber?.subscriber?.avatar.url}
               channelName={subscriber?.subscriber?.username}
@@ -37,7 +37,7 @@ function ChannelSubscribers() {
             </div>
           </div>
           <div>
-            <Button className="bg-purple-500 text-black text-xs py-1 px-2">
+            <Button className="bg-[var(--brand)] text-xs py-1 px-2 text-white">
               {subscriber?.subscriber?.subscribedToSubscriber
                 ? "Subscribed"
                 : "subscribe"}
@@ -45,7 +45,7 @@ function ChannelSubscribers() {
           </div>
         </Link>
       ))}
-    </>
+    </div>
   );
 }
 

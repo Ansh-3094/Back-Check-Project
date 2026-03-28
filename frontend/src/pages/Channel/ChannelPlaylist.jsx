@@ -44,7 +44,7 @@ function ChannelPlaylist() {
         {authId === userId && (
           <div className="w-full flex justify-center mt-5">
             <Button
-              className="bg-purple-500 text-sm p-2"
+              className="bg-(--brand) text-sm p-2"
               onClick={() => setOpenCreatePlaylist((prev) => !prev)}
             >
               Create Playlist
@@ -52,8 +52,8 @@ function ChannelPlaylist() {
           </div>
         )}
         {openCreatePlaylist && (
-          <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black z-40">
-            <div className="relative w-full max-w-sm border bg-black">
+          <div className="fixed top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/70">
+            <div className="relative w-full max-w-sm rounded-lg border border-slate-700 bg-(--surface-strong)">
               <form
                 onSubmit={handleSubmit(createPlaylist)}
                 className="w-full space-y-5 p-4"
@@ -90,7 +90,7 @@ function ChannelPlaylist() {
                   </span>
                 )}
                 <Button
-                  className="bg-purple-500 text-sm p-2 w-full"
+                  className="w-full bg-(--brand) p-2 text-sm"
                   type="submit"
                 >
                   Create Playlist
@@ -104,7 +104,7 @@ function ChannelPlaylist() {
             <Link
               to={`/playlist/${playlist._id}`}
               key={playlist.id}
-              className="relative h-60 w-full border border-slate-500"
+              className="relative h-60 w-full rounded-lg border border-slate-600 bg-(--surface-strong)"
             >
               <div className="absolute flex justify-between bottom-0 left-0 border-t py-1 px-2 w-full backdrop-contrast-75">
                 <div className="flex flex-col gap-1">

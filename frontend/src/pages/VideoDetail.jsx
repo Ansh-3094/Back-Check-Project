@@ -10,6 +10,7 @@ import {
   Spinner,
   InfiniteScroll,
   Navbar,
+  Container,
 } from "../components";
 import {
   cleanUpComments,
@@ -45,48 +46,55 @@ function VideoDetail() {
   return (
     <>
       <Navbar />
-      <Video src={video?.videoFile?.url} poster={video?.thumbnail?.url} />
-      <Description
-        avatar={video?.owner?.avatar.url}
-        channelName={video?.owner?.username}
-        createdAt={video?.createdAt}
-        description={video?.description}
-        isSubscribed={video?.owner?.isSubscribed}
-        likesCount={video?.likesCount}
-        subscribersCount={video?.owner?.subscribersCount}
-        title={video?.title}
-        views={video?.views}
-        key={video?._id}
-        isLiked={video?.isLiked}
-        videoId={video?._id}
-        channelId={video?.owner?._id}
-      />
-      <div className="text-white font-semibold sm:px-5 px-3">
-        {totalComments} Comments
-      </div>
-      <TweetAndComment comment={true} videoId={video?._id} />
-      <InfiniteScroll fetchMore={fetchMoreComments} hasNextPage={hasNextPage}>
-        <div className="w-full sm:max-w-4xl">
-          {comments?.map((comment) => (
-            <CommentList
-              key={comment?._id}
-              avatar={comment?.owner?.avatar?.url}
-              commentId={comment?._id}
-              content={comment?.content}
-              createdAt={comment?.createdAt}
-              fullName={comment?.owner?.fullName}
-              isLiked={comment?.isLiked}
-              likesCount={comment?.likesCount}
-              username={comment?.owner?.username}
-            />
-          ))}
-          {loading && (
-            <div className="w-full flex justify-center items-center">
-              <Spinner width={10} />
+      <Container>
+        <div className="app-panel mt-3 rounded-xl p-3 sm:p-4">
+          <Video src={video?.videoFile?.url} poster={video?.thumbnail?.url} />
+          <Description
+            avatar={video?.owner?.avatar.url}
+            channelName={video?.owner?.username}
+            createdAt={video?.createdAt}
+            description={video?.description}
+            isSubscribed={video?.owner?.isSubscribed}
+            likesCount={video?.likesCount}
+            subscribersCount={video?.owner?.subscribersCount}
+            title={video?.title}
+            views={video?.views}
+            key={video?._id}
+            isLiked={video?.isLiked}
+            videoId={video?._id}
+            channelId={video?.owner?._id}
+          />
+          <div className="px-3 font-semibold text-white sm:px-5">
+            {totalComments} Comments
+          </div>
+          <TweetAndComment comment={true} videoId={video?._id} />
+          <InfiniteScroll
+            fetchMore={fetchMoreComments}
+            hasNextPage={hasNextPage}
+          >
+            <div className="mb-20 w-full sm:mb-0 sm:max-w-4xl">
+              {comments?.map((comment) => (
+                <CommentList
+                  key={comment?._id}
+                  avatar={comment?.owner?.avatar?.url}
+                  commentId={comment?._id}
+                  content={comment?.content}
+                  createdAt={comment?.createdAt}
+                  fullName={comment?.owner?.fullName}
+                  isLiked={comment?.isLiked}
+                  likesCount={comment?.likesCount}
+                  username={comment?.owner?.username}
+                />
+              ))}
+              {loading && (
+                <div className="flex w-full items-center justify-center">
+                  <Spinner width={10} />
+                </div>
+              )}
             </div>
-          )}
+          </InfiniteScroll>
         </div>
-      </InfiniteScroll>
+      </Container>
     </>
   );
 }
