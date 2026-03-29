@@ -11,40 +11,57 @@ const initialState = {
 
 export const toggleSubscription = createAsyncThunk(
   "toggleSubscription",
-  async (channelId) => {
+  async (channelId, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(`subscriptions/c/${channelId}`);
+      const response = await axiosInstance.post(
+        `/subscriptions/channels/${channelId}/subscribe`,
+      );
       return response.data.data.subscribed;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
-      throw error;
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Subscription action failed";
+      toast.error(message);
+      return rejectWithValue(message);
     }
   },
 );
 
 export const getUserChannelSubscribers = createAsyncThunk(
   "getUserChannelSubscribers",
-  async (channelId) => {
+  async (channelId, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`subscriptions/c/${channelId}`);
+      const response = await axiosInstance.get(
+        `/subscriptions/channels/${channelId}/subscribers`,
+      );
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
-      throw error;
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Unable to fetch channel subscribers";
+      toast.error(message);
+      return rejectWithValue(message);
     }
   },
 );
 
 export const getSubscribedChannels = createAsyncThunk(
   "getSubscribedChannels",
-  async (subscriberId) => {
+  async (subscriberId, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(
-        `subscriptions/u/${subscriberId}`,
+        `/subscriptions/users/${subscriberId}/subscriptions`,
       );
       return response.data.data;
     } catch (error) {
-      return error;
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Unable to fetch subscriptions";
+      toast.error(message);
+      return rejectWithValue(message);
     }
   },
 );
@@ -76,6 +93,10 @@ const subscriptionSlice = createSlice({
       state.mySubscriptions = action.payload.filter(
         (subscription) => subscription?.subscribedChannel?.latestVideo,
       );
+    });
+    builder.addCase(getSubscribedChannels.rejected, (state) => {
+      state.loading = false;
+      state.mySubscriptions = [];
     });
   },
 });

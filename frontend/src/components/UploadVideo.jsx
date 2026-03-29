@@ -64,7 +64,7 @@ function UploadVideo({ setUploadVideoPopup }) {
               </div>
               <div>
                 <Button
-                  className="bg-purple-500 py-1 px-2 font-bold"
+                  className="bg-(--brand) py-1 px-2 font-bold"
                   textColor="text-black"
                   type="submit"
                 >
@@ -85,7 +85,7 @@ function UploadVideo({ setUploadVideoPopup }) {
                 </div>
                 <label
                   htmlFor="video-upload"
-                  className="cursor-pointer bg-purple-500 text-black font-bold text-sm py-2 px-4"
+                  className="cursor-pointer bg-(--brand) text-black font-bold text-sm py-2 px-4"
                 >
                   Select Files
                 </label>
@@ -118,6 +118,7 @@ function UploadVideo({ setUploadVideoPopup }) {
                     className={"w-full h-56 border object-contain"}
                     cameraIcon={true}
                     cameraSize={40}
+                    rules={{ required: "thumbnail is required" }}
                   />
                   <span className="text-red-500 text-xs">
                     {errors.thumbnail?.message}
