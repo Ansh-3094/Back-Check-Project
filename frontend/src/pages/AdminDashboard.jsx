@@ -20,7 +20,7 @@ function AdminDashboard() {
   const videos = useSelector((state) => state.dashboard.channelVideos);
   const uploaded = useSelector((state) => state.video.uploaded);
   const publishToggled = useSelector((state) => state.video.publishToggled);
-  const deleting = useSelector((state) => state.video.loading);
+  const deleting = useSelector((state) => state.video.deleting);
 
   const dispatch = useDispatch();
   const [videoDetails, setVideoDetails] = useState(null);

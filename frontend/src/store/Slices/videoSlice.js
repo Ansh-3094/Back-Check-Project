@@ -6,6 +6,7 @@ import { BASE_URL } from "../../constants";
 
 const initialState = {
   loading: false,
+  deleting: false,
   uploading: false,
   uploaded: false,
   videos: {
@@ -159,10 +160,13 @@ const videoSlice = createSlice({
       state.uploaded = true;
     });
     builder.addCase(deleteAVideo.pending, (state) => {
-      state.loading = true;
+      state.deleting = true;
     });
     builder.addCase(deleteAVideo.fulfilled, (state) => {
-      state.loading = false;
+      state.deleting = false;
+    });
+    builder.addCase(deleteAVideo.rejected, (state) => {
+      state.deleting = false;
     });
     builder.addCase(getVideoById.pending, (state) => {
       state.loading = true;
@@ -170,6 +174,9 @@ const videoSlice = createSlice({
     builder.addCase(getVideoById.fulfilled, (state, action) => {
       state.loading = false;
       state.video = action.payload;
+    });
+    builder.addCase(getVideoById.rejected, (state) => {
+      state.loading = false;
     });
     builder.addCase(togglePublishStatus.fulfilled, (state) => {
       state.publishToggled = !state.publishToggled;
