@@ -23,9 +23,9 @@ function History() {
 
   if (videos && videos.length > 0) {
     return (
-      <>
-        <Container>
-          <div className="grid max-h-screen mb-20 sm:m-0 overflow-y-scroll lg:grid-cols-3 sm:grid-cols-2 text-white">
+      <Container>
+        <div className="app-panel rounded-xl p-3 sm:p-4">
+          <div className="mb-20 grid max-h-[calc(100vh-140px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-3">
             {videos.map((video) => (
               <VideoList
                 key={video._id}
@@ -40,8 +40,8 @@ function History() {
               />
             ))}
           </div>
-        </Container>
-      </>
+        </div>
+      </Container>
     );
   }
   return <></>;

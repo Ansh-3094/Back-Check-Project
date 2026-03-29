@@ -8,37 +8,57 @@ const initialState = {
   userData: null,
 };
 
-export const createAccount = createAsyncThunk("register", async (data) => {
-  const formData = new FormData();
-  formData.append("avatar", data.avatar[0]);
-  formData.append("username", data.username);
-  formData.append("email", data.email);
-  formData.append("password", data.password);
-  formData.append("fullName", data.fullName);
-  if (data.coverImage) {
-    formData.append("coverImage", data.coverImage[0]);
-  }
+export const createAccount = createAsyncThunk(
+  "register",
+  async (data, { rejectWithValue }) => {
+    try {
+      if (!data?.avatar?.[0]) {
+        const message = "Avatar is required";
+        toast.error(message);
+        return rejectWithValue(message);
+      }
 
-  try {
-    const response = await axiosInstance.post("/users/register", formData);
-    console.log(response.data);
-    toast.success("Registered successfully!!!");
-    return response.data;
-  } catch (error) {
-    toast.error(error?.response?.data?.error);
-    throw error;
-  }
-});
+      const formData = new FormData();
+      formData.append("avatar", data.avatar[0]);
+      formData.append("username", data.username);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("fullName", data.fullName);
 
-export const userLogin = createAsyncThunk("login", async (data) => {
-  try {
-    const response = await axiosInstance.post("/users/login", data);
-    return response.data.data.user;
-  } catch (error) {
-    toast.error(error?.response?.data?.error);
-    throw error;
-  }
-});
+      if (data?.coverImage?.[0]) {
+        formData.append("coverImage", data.coverImage[0]);
+      }
+
+      const response = await axiosInstance.post("/users/register", formData);
+      toast.success("Registered successfully!!!");
+      return response.data;
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Registration failed";
+      toast.error(message);
+      return rejectWithValue(message);
+    }
+  },
+);
+
+export const userLogin = createAsyncThunk(
+  "login",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/users/login", data);
+      return response.data.data.user;
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Login failed";
+      toast.error(message);
+      return rejectWithValue(message);
+    }
+  },
+);
 
 export const userLogout = createAsyncThunk("logout", async () => {
   try {
@@ -136,6 +156,9 @@ const authSlice = createSlice({
     builder.addCase(createAccount.fulfilled, (state) => {
       state.loading = false;
     });
+    builder.addCase(createAccount.rejected, (state) => {
+      state.loading = false;
+    });
     builder.addCase(userLogin.pending, (state) => {
       state.loading = true;
     });
@@ -143,6 +166,10 @@ const authSlice = createSlice({
       state.loading = false;
       state.status = true;
       state.userData = action.payload;
+    });
+    builder.addCase(userLogin.rejected, (state) => {
+      state.loading = false;
+      state.status = false;
     });
     builder.addCase(userLogout.pending, (state) => {
       state.loading = true;

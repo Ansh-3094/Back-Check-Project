@@ -42,32 +42,34 @@ function HomePage() {
 
   return (
     <Container>
-      <InfiniteScroll
-        dataLength={videos?.length || 0}
-        next={fetchMoreVideos}
-        hasMore={hasNextPage}
-        loader={isLoading && <HomeSkeleton />}
-        scrollableTarget="scrollable-container"
-      >
-        <div
-          className="text-white mb-20 sm:m-0 max-h-screen w-full grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-y-scroll"
-          id="scrollable-container"
+      <div className="app-panel rounded-xl p-3 sm:p-4">
+        <InfiniteScroll
+          dataLength={videos?.length || 0}
+          next={fetchMoreVideos}
+          hasMore={hasNextPage}
+          loader={isLoading && <HomeSkeleton />}
+          scrollableTarget="scrollable-container"
         >
-          {videos?.map((video) => (
-            <VideoList
-              key={video._id}
-              avatar={video.ownerDetails?.avatar.url}
-              duration={video.duration}
-              title={video.title}
-              thumbnail={video.thumbnail?.url}
-              createdAt={video.createdAt}
-              views={video.views}
-              channelName={video.ownerDetails.username}
-              videoId={video._id}
-            />
-          ))}
-        </div>
-      </InfiniteScroll>
+          <div
+            className="mb-20 grid max-h-[calc(100vh-140px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
+            id="scrollable-container"
+          >
+            {videos?.map((video) => (
+              <VideoList
+                key={video._id}
+                avatar={video.ownerDetails?.avatar.url}
+                duration={video.duration}
+                title={video.title}
+                thumbnail={video.thumbnail?.url}
+                createdAt={video.createdAt}
+                views={video.views}
+                channelName={video.ownerDetails.username}
+                videoId={video._id}
+              />
+            ))}
+          </div>
+        </InfiniteScroll>
+      </div>
     </Container>
   );
 }

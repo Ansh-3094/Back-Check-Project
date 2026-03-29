@@ -20,17 +20,16 @@ function SignUp() {
   const loading = useSelector((state) => state.auth?.loading);
 
   const submit = async (data) => {
-    const response = await dispatch(createAccount(data));
-    if (response?.payload?.success) {
+    try {
+      await dispatch(createAccount(data)).unwrap();
+
       const username = data?.username;
       const password = data?.password;
-      const loginResult = await dispatch(userLogin({ username, password }));
+      await dispatch(userLogin({ username, password })).unwrap();
 
-      if (loginResult?.type === "login/fulfilled") {
-        navigate("/terms&conditions");
-      } else {
-        navigate("/login");
-      }
+      navigate("/terms&conditions");
+    } catch {
+      // Errors are already shown via toast in async thunks.
     }
   };
 
