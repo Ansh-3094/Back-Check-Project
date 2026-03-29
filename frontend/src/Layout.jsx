@@ -7,7 +7,7 @@ function Layout() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="app-shell mx-auto flex w-full max-w-[1600px] gap-4 px-2 pb-20 pt-3 sm:px-4 sm:pb-4">
+      <div className="app-shell mx-auto flex w-full max-w-400 gap-4 px-2 pb-20 pt-3 sm:px-4 sm:pb-4">
         <div>
           <Sidebar />
         </div>
