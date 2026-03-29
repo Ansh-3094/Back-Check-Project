@@ -5,7 +5,7 @@ import {
   toggleCommentLike,
   toggleTweetLike,
 } from "../controllers/like.controller.js";
-import { verifyJWT } from "../middlewares/authentication.middleware";
+import { verifyJWT } from "../middlewares/authentication.middleware.js";
 
 const router = Router();
 router.use(verifyJWT);
