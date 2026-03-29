@@ -113,12 +113,19 @@ function Sidebar() {
                 </span>
               </div>
             )}
-            <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
-              <CiSettings size={25} />
-              <span className="hidden text-sm font-medium md:block">
-                Settings
-              </span>
-            </div>
+            <NavLink
+              to="/edit/personalInfo"
+              className={({ isActive }) =>
+                isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
+              }
+            >
+              <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
+                <CiSettings size={25} />
+                <span className="hidden text-sm font-medium md:block">
+                  Settings
+                </span>
+              </div>
+            </NavLink>
           </div>
         </div>
       </div>

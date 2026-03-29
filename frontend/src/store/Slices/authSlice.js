@@ -1,6 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
+import { UNSAFE_getTurboStreamSingleFetchDataStrategy } from "react-router-dom";
+
+const setAccessToken = (token) => {
+  if (token) {
+    localStorage.setItem("accessToken", token);
+    axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+    return;
+  }
+
+  localStorage.removeItem("accessToken");
+  delete axiosInstance.defaults.headers.common.Authorization;
+};
 
 const initialState = {
   loading: false,
@@ -48,6 +60,8 @@ export const userLogin = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/users/login", data);
+      const accessToken = response?.data?.data?.accessToken;
+      setAccessToken(accessToken);
       return response.data.data.user;
     } catch (error) {
       const message =
@@ -63,6 +77,7 @@ export const userLogin = createAsyncThunk(
 export const userLogout = createAsyncThunk("logout", async () => {
   try {
     const response = await axiosInstance.post("/users/logout");
+    setAccessToken(null);
     toast.success(response.data?.message);
     return response.data;
   } catch (error) {
@@ -76,6 +91,8 @@ export const refreshAccessToken = createAsyncThunk(
   async (data) => {
     try {
       const response = await axiosInstance.post("/users/refresh-token", data);
+      const accessToken = response?.data?.data?.accessToken;
+      setAccessToken(accessToken);
       return response.data;
     } catch (error) {
       toast.error(error?.response?.data?.error);
@@ -105,7 +122,7 @@ export const getCurrentUser = createAsyncThunk("getCurrentUser", async () => {
 
 export const updateAvatar = createAsyncThunk("updateAvatar", async (avatar) => {
   try {
-    const response = await axiosInstance.patch("/users/update-avatar", avatar);
+    const response = await axiosInstance.patch("/users/avatar", avatar);
     toast.success("Updated details successfully!!!");
     return response.data.data;
   } catch (error) {
@@ -119,7 +136,7 @@ export const updateCoverImg = createAsyncThunk(
   async (coverImage) => {
     try {
       const response = await axiosInstance.patch(
-        "/users/update-coverImg",
+        "/users/cover-image",
         coverImage,
       );
       toast.success(response.data?.message);
@@ -135,7 +152,7 @@ export const updateUserDetails = createAsyncThunk(
   "updateUserDetails",
   async (data) => {
     try {
-      const response = await axiosInstance.patch("/users/update-user", data);
+      const response = await axiosInstance.patch("/users/update-account", data);
       toast.success("Updated details successfully!!!");
       return response.data;
     } catch (error) {

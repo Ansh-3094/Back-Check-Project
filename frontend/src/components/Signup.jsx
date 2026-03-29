@@ -67,6 +67,7 @@ function SignUp() {
                   className="object-cover rounded-full h-20 w-20 outline-none"
                   cameraIcon={true}
                   cameraSize={20}
+                  rules={{ required: "avatar is required" }}
                 />
               </div>
 
