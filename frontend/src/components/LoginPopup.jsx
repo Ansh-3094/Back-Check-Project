@@ -12,7 +12,7 @@ const LoginPopup = () => {
         <p className="text-xl font-medium mb-2">Login or Signup to continue</p>
         <Link to="/login">
           <Button
-            className="bg-purple-500 w-full py-2 px-4 font-bold text-lg rounded"
+            className="bg-(--brand) w-full py-2 px-4 font-bold text-lg rounded"
             textColor="text-black"
           >
             Login

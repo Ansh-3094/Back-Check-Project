@@ -74,7 +74,7 @@ function UploadingVideo({
               Cancel
             </Button>
             <Button
-              className="flex-1 bg-purple-500 p-2"
+              className="flex-1 bg-(--brand) p-2"
               textColor="text-black"
               onClick={handleCancelAndFinish}
             >

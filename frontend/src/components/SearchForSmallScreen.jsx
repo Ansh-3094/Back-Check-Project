@@ -38,7 +38,7 @@ function SearchForSmallScreen({ open, setOpenSearch }) {
               />
               <Button
                 type="submit"
-                className="px-4 py-2 bg-purple-500 text-white font-semibold hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                className="px-4 py-2 bg-(--brand) text-white font-semibold hover:bg-(--brand-strong) focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               >
                 Search
               </Button>

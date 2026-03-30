@@ -11,7 +11,7 @@ function MySubscriptions() {
   );
   const subscriberId = useSelector((state) => state.auth?.userData?._id);
   useEffect(() => {
-    if (subscriptions) {
+    if (subscriberId) {
       dispatch(getSubscribedChannels(subscriberId));
     }
   }, [dispatch, subscriberId]);
@@ -27,7 +27,10 @@ function MySubscriptions() {
               className="flex min-w-16 flex-col items-center"
             >
               <Avatar
-                src={subscription?.subscribedChannel?.avatar.url}
+                src={
+                  subscription?.subscribedChannel?.avatar?.url ||
+                  subscription?.subscribedChannel?.avatar
+                }
                 channelName={subscription?.subscribedChannel?.username}
               />
               <h5 className="text-xs">
@@ -46,7 +49,10 @@ function MySubscriptions() {
               {subscription?.subscribedChannel?.latestVideo && (
                 <VideoList
                   key={subscription?.subscribedChannel?._id}
-                  avatar={subscription?.subscribedChannel?.avatar.url}
+                  avatar={
+                    subscription?.subscribedChannel?.avatar?.url ||
+                    subscription?.subscribedChannel?.avatar
+                  }
                   duration={
                     subscription?.subscribedChannel?.latestVideo?.duration
                   }

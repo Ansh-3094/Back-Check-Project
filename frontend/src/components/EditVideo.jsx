@@ -128,7 +128,7 @@ function EditVideo({
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 bg-purple-500 p-2 font-bold"
+                  className="flex-1 bg-(--brand) p-2 font-bold"
                   textColor="text-black"
                   type="submit"
                 >
