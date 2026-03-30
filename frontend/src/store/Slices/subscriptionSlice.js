@@ -22,7 +22,7 @@ export const toggleSubscription = createAsyncThunk(
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Subscription action failed";
-      toast.error(message);
+      // toast.error(message);
       return rejectWithValue(message);
     }
   },
@@ -41,7 +41,7 @@ export const getUserChannelSubscribers = createAsyncThunk(
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Unable to fetch channel subscribers";
-      toast.error(message);
+      // toast.error(message);
       return rejectWithValue(message);
     }
   },
@@ -60,7 +60,7 @@ export const getSubscribedChannels = createAsyncThunk(
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Unable to fetch subscriptions";
-      toast.error(message);
+      // toast.error(message);
       return rejectWithValue(message);
     }
   },

@@ -21,7 +21,7 @@ export const createAPlaylist = createAsyncThunk(
       }
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -37,7 +37,7 @@ export const addVideoToPlaylist = createAsyncThunk(
       }
       return response.data?.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -55,7 +55,7 @@ export const removeVideoFromPlaylist = createAsyncThunk(
       }
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -68,7 +68,7 @@ export const getPlaylistById = createAsyncThunk(
       const response = await axiosInstance.get(`/playlist/${playlistId}`);
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -81,7 +81,7 @@ export const getPlaylistsByUser = createAsyncThunk(
       const response = await axiosInstance.get(`/playlist/user/${userId}`);
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -100,7 +100,7 @@ export const upadtePlaylist = createAsyncThunk(
       }
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },

@@ -11,6 +11,8 @@ function Login() {
   const {
     handleSubmit,
     register,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
@@ -24,6 +26,24 @@ function Login() {
       : data;
 
     const response = await dispatch(userLogin(loginData));
+
+    if (userLogin.rejected.match(response)) {
+      const serverMessage =
+        response?.payload || response?.error?.message || "Login failed";
+      const credentialError = /invalid|incorrect|username|email|password/i.test(
+        serverMessage,
+      )
+        ? "Invalid username or password"
+        : serverMessage;
+
+      setError("password", {
+        type: "manual",
+        message: credentialError,
+      });
+      return;
+    }
+
+    clearErrors("password");
     const user = await dispatch(getCurrentUser());
     if (user && response?.payload) {
       navigate("/");
@@ -44,11 +64,12 @@ function Login() {
 
           <form onSubmit={handleSubmit(submit)} className="space-y-5 p-2">
             <Input
-              label="Username / email : "
+              label="Username / Email : "
               type="text"
               placeholder="example@gmail.com"
               {...register("username", {
                 required: "username is required",
+                onChange: () => clearErrors("password"),
               })}
             />
             {errors.username && (
@@ -60,14 +81,19 @@ function Login() {
               placeholder="1kd074fjw0"
               {...register("password", {
                 required: "password is required",
+                onChange: () => clearErrors("password"),
               })}
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            {errors.password && (
+              <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
+                {errors.password.message}
+              </p>
+            )}
 
             <Button
               type="submit"
               bgColor="bg-(--brand)"
-              className="w-full py-2 text-lg hover:bg-(--brand-strong) sm:py-3"
+              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
             >
               Login
             </Button>
@@ -76,7 +102,7 @@ function Login() {
               Don&apos;t have an account?{" "}
               <Link
                 to={"/signup"}
-                className="cursor-pointer text-(--accent) hover:opacity-70"
+                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline hover:text-white"
               >
                 SignUp
               </Link>

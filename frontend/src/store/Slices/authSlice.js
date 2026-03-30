@@ -26,7 +26,7 @@ export const createAccount = createAsyncThunk(
     try {
       if (!data?.avatar?.[0]) {
         const message = "Avatar is required";
-        toast.error(message);
+        // toast.error(message);
         return rejectWithValue(message);
       }
 
@@ -49,7 +49,7 @@ export const createAccount = createAsyncThunk(
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Registration failed";
-      toast.error(message);
+      // toast.error(message);
       return rejectWithValue(message);
     }
   },
@@ -68,7 +68,7 @@ export const userLogin = createAsyncThunk(
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Login failed";
-      toast.error(message);
+      // toast.error(message);
       return rejectWithValue(message);
     }
   },
@@ -81,7 +81,7 @@ export const userLogout = createAsyncThunk("logout", async () => {
     toast.success(response.data?.message);
     return response.data;
   } catch (error) {
-    toast.error(error?.response?.data?.error);
+    // toast.error(error?.response?.data?.error);
     throw error;
   }
 });
@@ -95,7 +95,7 @@ export const refreshAccessToken = createAsyncThunk(
       setAccessToken(accessToken);
       return response.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -109,7 +109,7 @@ export const changePassword = createAsyncThunk(
       toast.success(response.data?.message);
       return response.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -126,7 +126,7 @@ export const updateAvatar = createAsyncThunk("updateAvatar", async (avatar) => {
     toast.success("Updated details successfully!!!");
     return response.data.data;
   } catch (error) {
-    toast.error(error?.response?.data?.error);
+    // toast.error(error?.response?.data?.error);
     throw error;
   }
 });
@@ -142,7 +142,7 @@ export const updateCoverImg = createAsyncThunk(
       toast.success(response.data?.message);
       return response.data.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },
@@ -156,7 +156,7 @@ export const updateUserDetails = createAsyncThunk(
       toast.success("Updated details successfully!!!");
       return response.data;
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      // toast.error(error?.response?.data?.error);
       throw error;
     }
   },

@@ -104,61 +104,79 @@ function SignUp() {
                             </label> */}
             </div>
             {errors.avatar && (
-              <div className="text-red-500">{errors.avatar.message}</div>
+              <p className="-mt-2 rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+                {errors.avatar.message}
+              </p>
             )}
-            <Input
-              label="Username: "
-              type="text"
-              placeholder="Enter username"
-              {...register("username", {
-                required: "username is required",
-              })}
-              className="h-8"
-            />
-            {errors.username && (
-              <span className="text-red-500">{errors.username.message}</span>
-            )}
-            <Input
-              label="Email: "
-              type="email"
-              placeholder="Enter email"
-              {...register("email", {
-                required: "email is required",
-              })}
-              className="h-8"
-            />
-            {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
-            )}
-            <Input
-              label="Fullname: "
-              type="text"
-              placeholder="Enter fullname"
-              {...register("fullName", {
-                required: "fullName is required",
-              })}
-              className="h-8"
-            />
-            {errors.fullName && (
-              <span className="text-red-500">{errors.fullName.message}</span>
-            )}
-            <Input
-              label="Password: "
-              type="password"
-              placeholder="Enter password"
-              {...register("password", {
-                required: "password is required",
-              })}
-              className="h-8"
-            />
-            {errors.password && (
-              <span className="text-red-500">{errors.password.message}</span>
-            )}
+            <div className="space-y-1">
+              <Input
+                label="Username: "
+                type="text"
+                placeholder="Enter Username"
+                {...register("username", {
+                  required: "username is required",
+                })}
+                className="h-8"
+              />
+              {errors.username && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+                  {errors.username.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-1">
+              <Input
+                label="Email: "
+                type="email"
+                placeholder="Enter Email"
+                {...register("email", {
+                  required: "email is required",
+                })}
+                className="h-8"
+              />
+              {errors.email && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-1">
+              <Input
+                label="Fullname: "
+                type="text"
+                placeholder="Enter Fullname"
+                {...register("fullName", {
+                  required: "fullName is required",
+                })}
+                className="h-8"
+              />
+              {errors.fullName && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+                  {errors.fullName.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-1">
+              <Input
+                label="Password: "
+                type="password"
+                placeholder="Enter Password"
+                {...register("password", {
+                  required: "password is required",
+                })}
+                className="h-8"
+              />
+              {errors.password && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
 
             <Button
               type="submit"
               bgColor="bg-(--brand)"
-              className="w-full py-2 text-lg hover:bg-(--brand-strong) sm:py-3"
+              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
             >
               Signup
             </Button>
@@ -167,7 +185,7 @@ function SignUp() {
               Already have an account?{" "}
               <Link
                 to={"/login"}
-                className="cursor-pointer text-(--accent) hover:opacity-70"
+                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline hover:text-white"
               >
                 Login
               </Link>
