@@ -1,5 +1,4 @@
 import { v2 as cloudinary } from "cloudinary";
-import { log } from "console";
 import fs from "fs";
 
 cloudinary.config({
@@ -25,4 +24,28 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 };
 
-export { uploadOnCloudinary };
+const deleteOnCloudinary = async (identifier, resourceType = "image") => {
+  try {
+    if (!identifier) return null;
+
+    let publicId = identifier;
+
+    // When we only have a delivery URL in DB, derive public_id from URL path.
+    if (typeof identifier === "string" && identifier.startsWith("http")) {
+      const parts = identifier.split("/");
+      const fileName = parts[parts.length - 1] || "";
+      const withoutExtension = fileName.split(".")[0];
+      publicId = withoutExtension || identifier;
+    }
+
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: resourceType,
+    });
+
+    return result;
+  } catch (error) {
+    return null;
+  }
+};
+
+export { uploadOnCloudinary, deleteOnCloudinary };

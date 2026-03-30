@@ -44,10 +44,25 @@ app.use(cookieParser());
 import userRouter from "./routes/user.routes.js";
 import likeRouter from "./routes/like.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
+import subscriptionRouter from "./routes/subscription.routes.js";
+import videoRouter from "./routes/video.routes.js";
 
 //routes declaration
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
+app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/video", videoRouter);
+
+app.use((err, req, res, next) => {
+  const statusCode = err?.statusCode || 500;
+  const message = err?.message || "Internal Server Error";
+
+  return res.status(statusCode).json({
+    success: false,
+    message,
+    errors: err?.errors || [],
+  });
+});
 
 export { app };

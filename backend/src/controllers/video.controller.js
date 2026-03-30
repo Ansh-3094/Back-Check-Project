@@ -1,10 +1,10 @@
-import asyncHandler from "../utils/asyncHandler.js";
-import ApiError from "../utils/apiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
 import { Video } from "../models/video.model.js";
 import { User } from "../models/user.model.js";
 import { Comment } from "../models/comment.model.js";
 import { uploadOnCloudinary, deleteOnCloudinary } from "../utils/cloudinary.js";
-import ApiResponse from "../utils/ApiResponse.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose, { isValidObjectId } from "mongoose";
 import { Like } from "../models/like.model.js";
 
@@ -91,8 +91,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
 
-  const videoFileLocalPath = req.files?.videoFile[0]?.path;
-  const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
+  const videoFileLocalPath = req.files?.videoFile?.[0]?.path;
+  const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
 
   if (!videoFileLocalPath || !thumbnailLocalPath) {
     throw new ApiError(400, "Video and thumbnail are required");
