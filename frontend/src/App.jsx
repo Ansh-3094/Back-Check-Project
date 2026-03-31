@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthLayout, Login, SignUp } from "./components/index";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -16,6 +16,7 @@ import {
   AdminDashboard,
   EditChannel,
   HomePage,
+  LandingPage,
   SearchVideos,
   TermsAndConditions,
   ChannelPlaylist,
@@ -26,17 +27,28 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCurrentUser());
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      dispatch(getCurrentUser());
+    }
   }, [dispatch]);
 
   return (
     <>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <AuthLayout authentication={false}>
+              <LandingPage />
+            </AuthLayout>
+          }
+        />
         <Route path="/" element={<Layout />}>
           <Route
-            path=""
+            path="/explore"
             element={
-              <AuthLayout authentication={false}>
+              <AuthLayout authentication>
                 <HomePage />
               </AuthLayout>
             }
@@ -44,7 +56,7 @@ function App() {
           <Route
             path="/search/:query"
             element={
-              <AuthLayout authentication={false}>
+              <AuthLayout authentication>
                 <SearchVideos />
               </AuthLayout>
             }
@@ -84,7 +96,7 @@ function App() {
             <Route
               path="subscribed"
               element={
-                <AuthLayout authentication={false}>
+                <AuthLayout authentication>
                   <ChannelSubscribers />
                 </AuthLayout>
               }
@@ -180,6 +192,8 @@ function App() {
             </AuthLayout>
           }
         />
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
       <Toaster

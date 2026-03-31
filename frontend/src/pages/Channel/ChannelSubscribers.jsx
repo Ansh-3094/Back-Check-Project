@@ -22,7 +22,7 @@ function ChannelSubscribers() {
       {subscribers?.map((subscriber) => (
         <Link
           key={subscriber?.subscriber?._id}
-          className="flex items-center justify-between rounded-md border border-slate-700/70 bg-[var(--surface-strong)] px-3 py-2 text-white"
+          className="flex items-center justify-between rounded-md border border-slate-700/70 bg-(--surface-strong) px-3 py-2 text-white"
         >
           <div className="flex items-center gap-3">
             <Avatar
@@ -37,7 +37,7 @@ function ChannelSubscribers() {
             </div>
           </div>
           <div>
-            <Button className="bg-[var(--brand)] text-xs py-1 px-2 text-white">
+            <Button className="bg-(--brand) text-xs py-1 px-2 text-white">
               {subscriber?.subscriber?.subscribedToSubscriber
                 ? "Subscribed"
                 : "subscribe"}

@@ -59,7 +59,7 @@ function Login() {
       <div className="flex min-h-screen w-full items-start justify-center p-3 text-white">
         <div className="app-panel mt-20 flex w-full max-w-xl flex-col items-center justify-center space-y-5 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2 mt-5">
-            <Logo />
+            <Logo textSize="text-3xl" size="40" noLink />
           </div>
 
           <form onSubmit={handleSubmit(submit)} className="space-y-5 p-2">
@@ -68,7 +68,7 @@ function Login() {
               type="text"
               placeholder="example@gmail.com"
               {...register("username", {
-                required: "username is required",
+                required: "Username is required",
                 onChange: () => clearErrors("password"),
               })}
             />
@@ -80,7 +80,7 @@ function Login() {
               type="password"
               placeholder="1kd074fjw0"
               {...register("password", {
-                required: "password is required",
+                required: "Password is required",
                 onChange: () => clearErrors("password"),
               })}
             />
@@ -93,7 +93,7 @@ function Login() {
             <Button
               type="submit"
               bgColor="bg-(--brand)"
-              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
+              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
             >
               Login
             </Button>
@@ -102,7 +102,7 @@ function Login() {
               Don&apos;t have an account?{" "}
               <Link
                 to={"/signup"}
-                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline hover:text-white"
+                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline"
               >
                 SignUp
               </Link>

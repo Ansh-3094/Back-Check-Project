@@ -21,7 +21,7 @@ function Sidebar() {
     {
       icon: <RiHome6Line size={25} />,
       title: "Home",
-      url: "/",
+      url: "/explore",
     },
     {
       icon: <BiLike size={25} />,
@@ -54,7 +54,7 @@ function Sidebar() {
     {
       icon: <RiHome6Line size={25} />,
       title: "Home",
-      url: "/",
+      url: "/explore",
     },
     {
       icon: <BiHistory size={25} />,
@@ -81,7 +81,7 @@ function Sidebar() {
   return (
     <>
       <div className="hidden sm:block">
-        <div className="app-panel sticky top-[88px] flex h-[calc(100vh-110px)] w-16 flex-col justify-between rounded-xl p-2 text-[var(--text)] md:w-48 lg:w-56 sm:p-3">
+        <div className="app-panel sticky top-22 flex h-[calc(100vh-110px)] w-16 flex-col justify-between rounded-xl p-2text-(--text) md:w-48 lg:w-56 sm:p-3">
           <div className="mt-2 flex flex-col gap-3">
             {sidebarTopItems.map((item) => (
               <NavLink
@@ -91,7 +91,7 @@ function Sidebar() {
                   isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
                 }
               >
-                <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
+                <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
                   {item.icon}
                   <span className="hidden text-sm font-medium md:block">
                     {item.title}
@@ -104,7 +104,7 @@ function Sidebar() {
           <div className="mb-2 space-y-3">
             {username && (
               <div
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start"
                 onClick={() => logout()}
               >
                 <IoMdLogOut size={25} />
@@ -119,7 +119,7 @@ function Sidebar() {
                 isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
               }
             >
-              <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--line)] px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
+              <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
                 <CiSettings size={25} />
                 <span className="hidden text-sm font-medium md:block">
                   Settings
@@ -131,13 +131,13 @@ function Sidebar() {
       </div>
 
       {/* for mobile sidebar is bottom bar*/}
-      <div className="fixed bottom-0 z-20 flex h-16 w-full justify-around border-t border-[var(--line)] bg-[rgba(15,17,21,0.95)] p-1 text-[var(--text)] backdrop-blur-xl sm:hidden">
+      <div className="fixed bottom-0 z-20 flex h-16 w-full justify-around border-t border-(--line) bg-[rgba(15,17,21,0.95)] p-1 text-(--text) backdrop-blur-xl sm:hidden">
         {bottomBarItems.map((item) => (
           <NavLink
             to={item.url}
             key={item.title}
             className={({ isActive }) =>
-              isActive ? "text-[var(--brand)]" : "text-[var(--text-dim)]"
+              isActive ? "text-(--brand)" : "text-(--text-dim)"
             }
           >
             <div className="flex cursor-pointer flex-col items-center gap-1 p-1">

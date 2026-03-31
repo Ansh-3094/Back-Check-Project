@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { LoginPopup } from "../components";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function AuthLayout({ children, authentication }) {
-  const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.status);
+  const loading = useSelector((state) => state.auth.loading);
 
-  useEffect(() => {
-    if (!authentication && authStatus !== authentication) {
-      return;
-    }
-  }, [authStatus, authentication, navigate]);
+  if (authentication && loading) {
+    return null;
+  }
 
-  if (authentication && authStatus !== authentication) {
-    return <LoginPopup />;
+  if (authentication && !authStatus) {
+    return <Navigate to="/" replace />;
   }
 
   return children;

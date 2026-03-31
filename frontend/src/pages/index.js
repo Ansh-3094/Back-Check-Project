@@ -6,6 +6,7 @@ import AdminDashboard from "./AdminDashboard";
 import EditChannel from "./EditChannel";
 import History from "./History";
 import HomePage from "./HomePage";
+import LandingPage from "./LandingPage";
 import LikedVideos from "./LikedVideos";
 import MySubscriptions from "./MySubscription.jsx";
 import VideoDetail from "./VideoDetail";
@@ -22,6 +23,7 @@ export {
   EditChannel,
   History,
   HomePage,
+  LandingPage,
   LikedVideos,
   MySubscriptions,
   VideoDetail,

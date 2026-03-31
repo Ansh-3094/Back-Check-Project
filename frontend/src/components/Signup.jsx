@@ -14,7 +14,7 @@ function SignUp() {
     register,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ mode: "onBlur" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth?.loading);
@@ -42,7 +42,7 @@ function SignUp() {
       <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8">
         <div className="app-panel flex w-full max-w-xl flex-col items-center justify-center space-y-2 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2">
-            <Logo />
+            <Logo textSize="text-3xl" size="40" noLink />
           </div>
           <form
             onSubmit={handleSubmit(submit)}
@@ -67,7 +67,7 @@ function SignUp() {
                   className="object-cover rounded-full h-20 w-20 outline-none"
                   cameraIcon={true}
                   cameraSize={20}
-                  rules={{ required: "avatar is required" }}
+                  rules={{ required: "Avatar is required" }}
                 />
               </div>
 
@@ -114,7 +114,7 @@ function SignUp() {
                 type="text"
                 placeholder="Enter Username"
                 {...register("username", {
-                  required: "username is required",
+                  required: "Username is required",
                 })}
                 className="h-8"
               />
@@ -130,7 +130,7 @@ function SignUp() {
                 type="email"
                 placeholder="Enter Email"
                 {...register("email", {
-                  required: "email is required",
+                  required: "Email is required",
                 })}
                 className="h-8"
               />
@@ -146,7 +146,7 @@ function SignUp() {
                 type="text"
                 placeholder="Enter Fullname"
                 {...register("fullName", {
-                  required: "fullName is required",
+                  required: "Fullname is required",
                 })}
                 className="h-8"
               />
@@ -162,7 +162,7 @@ function SignUp() {
                 type="password"
                 placeholder="Enter Password"
                 {...register("password", {
-                  required: "password is required",
+                  required: "Password is required",
                 })}
                 className="h-8"
               />
@@ -176,7 +176,7 @@ function SignUp() {
             <Button
               type="submit"
               bgColor="bg-(--brand)"
-              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
+              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
             >
               Signup
             </Button>
@@ -185,7 +185,7 @@ function SignUp() {
               Already have an account?{" "}
               <Link
                 to={"/login"}
-                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline hover:text-white"
+                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline"
               >
                 Login
               </Link>
