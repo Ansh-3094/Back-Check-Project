@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
-import { UNSAFE_getTurboStreamSingleFetchDataStrategy } from "react-router-dom";
 
 const setAccessToken = (token) => {
   if (token) {
@@ -208,6 +207,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.status = false;
       state.userData = null;
+      setAccessToken(null);
     });
     builder.addCase(updateAvatar.pending, (state) => {
       state.loading = true;

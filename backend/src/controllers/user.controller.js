@@ -48,6 +48,8 @@ const registerUser = asyncHandler(async (req, res) => {
   */
 
   const { fullName, email, username, password } = req.body;
+  const normalizedEmail = email?.trim().toLowerCase();
+  const normalizedUsername = username?.trim().toLowerCase();
   //console.log("email", email);
 
   if (
@@ -57,10 +59,13 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const existedUser = await User.findOne({
-    $or: [{ username }, { email }],
+    $or: [{ username: normalizedUsername }, { email: normalizedEmail }],
   });
   if (existedUser) {
-    throw new ApiError(409, "User with email or username already exists!");
+    if (existedUser.email === normalizedEmail) {
+      throw new ApiError(409, "Email is already registered");
+    }
+    throw new ApiError(409, "Username is already taken");
   }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
@@ -86,14 +91,29 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Avatar file is required");
   }
 
-  const user = await User.create({
-    fullName,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
-    email,
-    password,
-    username: username.toLowerCase(),
-  });
+  let user;
+  try {
+    user = await User.create({
+      fullName,
+      avatar: avatar.url,
+      coverImage: coverImage?.url || "",
+      email: normalizedEmail,
+      password,
+      username: normalizedUsername,
+    });
+  } catch (error) {
+    if (error?.code === 11000) {
+      const duplicateField = Object.keys(error?.keyPattern || {})[0];
+      if (duplicateField === "email") {
+        throw new ApiError(409, "Email is already registered");
+      }
+      if (duplicateField === "username") {
+        throw new ApiError(409, "Username is already taken");
+      }
+      throw new ApiError(409, "User already exists");
+    }
+    throw error;
+  }
 
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"

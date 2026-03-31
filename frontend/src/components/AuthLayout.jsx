@@ -5,8 +5,9 @@ import { Navigate } from "react-router-dom";
 function AuthLayout({ children, authentication }) {
   const authStatus = useSelector((state) => state.auth.status);
   const loading = useSelector((state) => state.auth.loading);
+  const hasToken = Boolean(localStorage.getItem("accessToken"));
 
-  if (authentication && loading) {
+  if (authentication && (loading || (hasToken && !authStatus))) {
     return null;
   }
 
