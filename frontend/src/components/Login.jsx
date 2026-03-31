@@ -46,7 +46,7 @@ function Login() {
     clearErrors("password");
     const user = await dispatch(getCurrentUser());
     if (user && response?.payload) {
-      navigate("/");
+      navigate("/explore");
     }
   };
 

@@ -11,9 +11,10 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
+import { FiMenu } from "react-icons/fi";
 import { userLogout } from "../../store/Slices/authSlice";
 
-function Sidebar() {
+function Sidebar({ isCollapsed = false, onToggle = () => {} }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const username = useSelector((state) => state.auth?.userData?.username);
@@ -81,8 +82,20 @@ function Sidebar() {
   return (
     <>
       <div className="hidden sm:block">
-        <div className="app-panel sticky top-22 flex h-[calc(100vh-110px)] w-16 flex-col justify-between rounded-xl p-2text-(--text) md:w-48 lg:w-56 sm:p-3">
+        <div
+          className={`app-panel sticky top-22 flex h-[calc(100vh-110px)] ${isCollapsed ? "w-16" : "w-56"} flex-col justify-between rounded-xl p-2 text-(--text) sm:p-3 fixed right-0 `}
+        >
           <div className="mt-2 flex flex-col gap-3">
+            <button
+              type="button"
+              aria-label="Menu"
+              className={`flex w-full items-center px-1 py-1 text-(--text) ${isCollapsed ? "justify-center" : "justify-end"}`}
+              onClick={onToggle}
+            >
+              <FiMenu size={23} />
+              {!isCollapsed && <span className="text-sm font-medium"></span>}
+            </button>
+
             {sidebarTopItems.map((item) => (
               <NavLink
                 to={item.url}
@@ -91,11 +104,13 @@ function Sidebar() {
                   isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
                 }
               >
-                <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
+                <div
+                  className={`flex cursor-pointer items-center rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] ${isCollapsed ? "justify-center" : "justify-start gap-3"}`}
+                >
                   {item.icon}
-                  <span className="hidden text-sm font-medium md:block">
-                    {item.title}
-                  </span>
+                  {!isCollapsed && (
+                    <span className="text-sm">{item.title}</span>
+                  )}
                 </div>
               </NavLink>
             ))}
@@ -104,13 +119,11 @@ function Sidebar() {
           <div className="mb-2 space-y-3">
             {username && (
               <div
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start"
+                className={`flex cursor-pointer items-center rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] ${isCollapsed ? "justify-center" : "justify-start gap-3"}`}
                 onClick={() => logout()}
               >
                 <IoMdLogOut size={25} />
-                <span className="hidden text-sm font-medium md:block">
-                  Logout
-                </span>
+                {!isCollapsed && <span className="text-sm">Logout</span>}
               </div>
             )}
             <NavLink
@@ -119,11 +132,11 @@ function Sidebar() {
                 isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
               }
             >
-              <div className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] sm:justify-start">
+              <div
+                className={`flex cursor-pointer items-center rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] ${isCollapsed ? "justify-center" : "justify-start gap-3"}`}
+              >
                 <CiSettings size={25} />
-                <span className="hidden text-sm font-medium md:block">
-                  Settings
-                </span>
+                {!isCollapsed && <span className="text-sm">Settings</span>}
               </div>
             </NavLink>
           </div>

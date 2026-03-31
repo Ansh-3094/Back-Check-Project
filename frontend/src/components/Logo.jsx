@@ -1,8 +1,12 @@
 import React from "react";
 import { IoIosVideocam } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Logo({ size = "30", textSize = "text-lg", noLink = false }) {
+  const authStatus = useSelector((state) => state.auth.status);
+  const homePath = authStatus ? "/explore" : "/";
+
   const content = (
     <div className="flex gap-2 items-center">
       <IoIosVideocam size={size} color="var(--brand)" />
@@ -15,7 +19,7 @@ function Logo({ size = "30", textSize = "text-lg", noLink = false }) {
   }
 
   return (
-    <Link to={"/"} className="flex gap-2 items-center">
+    <Link to={homePath} className="flex gap-2 items-center">
       {content}
     </Link>
   );

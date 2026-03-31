@@ -40,7 +40,7 @@ const TermsAndConditions = () => {
         <div>
           {isChecked && (
             <Link
-              to="/"
+              to="/explore"
               className="rounded bg-(--brand) px-4 py-2 font-bold text-white hover:bg-(--brand-strong)"
             >
               Continue

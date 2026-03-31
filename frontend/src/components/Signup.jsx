@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import LoginSkeleton from "../skeleton/loginSkeleton.jsx";
 import GetImagePreview from "./GetImagePreview.jsx";
+import toast from "react-hot-toast";
 
 function SignUp() {
   const {
     handleSubmit,
     register,
     control,
+    setError,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
   const navigate = useNavigate();
@@ -28,8 +30,28 @@ function SignUp() {
       await dispatch(userLogin({ username, password })).unwrap();
 
       navigate("/terms&conditions");
-    } catch {
-      // Errors are already shown via toast in async thunks.
+    } catch (error) {
+      const message =
+        typeof error === "string" ? error : error?.message || "Signup failed";
+
+      if (/username/i.test(message)) {
+        setError("username", {
+          type: "server",
+          message,
+        });
+      } else if (/email/i.test(message)) {
+        setError("email", {
+          type: "server",
+          message,
+        });
+      } else if (/avatar/i.test(message)) {
+        setError("avatar", {
+          type: "server",
+          message,
+        });
+      }
+
+      toast.error(message);
     }
   };
 
