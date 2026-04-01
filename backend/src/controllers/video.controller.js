@@ -193,7 +193,10 @@ const getVideoById = asyncHandler(async (req, res) => {
     );
 
   // increment views and update watch history for logged-in user
-  await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+  const currentViews = Number(video.views || 0);
+  await Video.findByIdAndUpdate(videoId, {
+    $set: { views: String(currentViews + 1) },
+  });
 
   if (currentUserId) {
     await User.findByIdAndUpdate(currentUserId, {

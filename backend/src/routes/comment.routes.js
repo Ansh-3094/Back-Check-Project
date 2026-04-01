@@ -5,16 +5,20 @@ import {
   getVideoComments,
   updateComment,
 } from "../controllers/comment.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { verifyJWT } from "../middlewares/authentication.middleware.js";
 
 const router = Router();
 
 // Public
-router.get("/video/:videoId", getVideoComments);
+// GET /api/v1/comment/:videoId
+router.get("/:videoId", getVideoComments);
 
 // Protected
-router.post("/video/:videoId", verifyJWT, addComment);
-router.patch("/comment/:commentId", verifyJWT, updateComment);
-router.delete("/comment/:commentId", verifyJWT, deleteComment);
+// POST /api/v1/comment/:videoId
+router.post("/:videoId", verifyJWT, addComment);
+// PATCH /api/v1/comment/c/:commentId
+router.patch("/c/:commentId", verifyJWT, updateComment);
+// DELETE /api/v1/comment/c/:commentId
+router.delete("/c/:commentId", verifyJWT, deleteComment);
 
 export default router;

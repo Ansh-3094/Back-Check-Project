@@ -25,6 +25,10 @@ function Description({
   const dispatch = useDispatch();
 
   const handleSubscribe = () => {
+    if (!channelId) {
+      console.error("[Description] Missing channelId for subscription");
+      return;
+    }
     dispatch(toggleSubscription(channelId));
     setLocalIsSubscribed((prev) => !prev);
     if (localIsSubscribed) {

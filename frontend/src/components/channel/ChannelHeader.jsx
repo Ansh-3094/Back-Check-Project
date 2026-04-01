@@ -28,6 +28,10 @@ function ChannelHeader({
   }, [subscribersCount, isSubscribed]);
 
   const handleSubscribe = () => {
+    if (!channelId) {
+      console.error("[ChannelHeader] Missing channelId for subscription");
+      return;
+    }
     dispatch(toggleSubscription(channelId));
     setLocalIsSubscribed((prev) => !prev);
     if (localIsSubscribed) {
