@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
 
-import { BASE_URL } from "../../constants";
-
 const initialState = {
   loading: false,
   deleting: false,
@@ -21,18 +19,18 @@ export const getAllVideos = createAsyncThunk(
   "getAllVideos",
   async ({ userId, sortBy, sortType, query, page, limit }) => {
     try {
-      const url = new URL(`${BASE_URL}/video`);
-
-      if (userId) url.searchParams.set("userId", userId);
-      if (query) url.searchParams.set("query", query);
-      if (page) url.searchParams.set("page", page);
-      if (limit) url.searchParams.set("limit", limit);
+      const params = {};
+      if (userId) params.userId = userId;
+      if (query) params.query = query;
+      if (page) params.page = page;
+      if (limit) params.limit = limit;
       if (sortBy && sortType) {
-        url.searchParams.set("sortBy", sortBy);
-        url.searchParams.set("sortType", sortType);
+        params.sortBy = sortBy;
+        params.sortType = sortType;
       }
 
-      const response = await axiosInstance.get(url);
+      console.log("[videoSlice/getAllVideos] params:", params);
+      const response = await axiosInstance.get("/video", { params });
 
       return response.data.data;
     } catch (error) {
@@ -141,9 +139,17 @@ const videoSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getAllVideos.fulfilled, (state, action) => {
+      console.log("[videoSlice] getAllVideos fulfilled", {
+        docsLength: action.payload?.docs?.length,
+        totalDocs: action.payload?.totalDocs,
+      });
       state.loading = false;
       state.videos.docs = [...state.videos.docs, ...action.payload.docs];
       state.videos.hasNextPage = action.payload.hasNextPage;
+    });
+    builder.addCase(getAllVideos.rejected, (state, action) => {
+      state.loading = false;
+      console.error("[videoSlice] getAllVideos rejected", action.error);
     });
     builder.addCase(publishAvideo.pending, (state) => {
       state.uploading = true;

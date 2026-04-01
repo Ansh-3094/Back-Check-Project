@@ -7,11 +7,14 @@ import { uploadOnCloudinary, deleteOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose, { isValidObjectId } from "mongoose";
 import { Like } from "../models/like.model.js";
+import { Subscription } from "../models/subscription.model.js";
 
 // get all videos based on query, sort, pagination
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
   const pipeline = [];
+
+  console.log("[getAllVideos] query params:", req.query);
 
   if (query) {
     pipeline.push({
@@ -60,7 +63,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
           {
             $project: {
               username: 1,
-              "avatar.url": 1,
+              avatar: 1,
             },
           },
         ],
@@ -77,6 +80,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
   };
 
   const video = await Video.aggregatePaginate(videoAggregate, options);
+
+  console.log("[getAllVideos] page result:", {
+    docsLength: video?.docs?.length,
+    totalDocs: video?.totalDocs,
+    page: video?.page,
+  });
 
   return res
     .status(200)
@@ -112,7 +121,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
     videoFile: videoFile.url,
     thumbnail: thumbnail.url,
     owner: req.user._id,
-    isPublished: false,
   });
 
   return res
@@ -128,89 +136,96 @@ const getVideoById = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid videoId");
   }
 
-  const currentUserId = new mongoose.Types.ObjectId(req.user._id);
+  const video = await Video.findById(videoId).lean();
 
-  const video = await Video.aggregate([
-    { $match: { _id: new mongoose.Types.ObjectId(videoId) } },
-    {
-      $lookup: {
-        from: "likes",
-        localField: "_id",
-        foreignField: "video",
-        as: "likes",
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner",
-        pipeline: [
-          {
-            $lookup: {
-              from: "subscriptions",
-              localField: "_id",
-              foreignField: "channel",
-              as: "subscribers",
-            },
-          },
-          {
-            $addFields: {
-              subscribersCount: { $size: "$subscribers" },
-              isSubscribed: {
-                $in: [currentUserId, "$subscribers.subscriber"],
-              },
-            },
-          },
-          {
-            $project: {
-              username: 1,
-              "avatar.url": 1,
-              subscribersCount: 1,
-              isSubscribed: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $addFields: {
-        likesCount: { $size: "$likes" },
-        owner: { $first: "$owner" },
-        isLiked: {
-          $in: [currentUserId, "$likes.likedBy"],
-        },
-      },
-    },
-    {
-      $project: {
-        "videoFile.url": 1,
-        title: 1,
-        description: 1,
-        views: 1,
-        createdAt: 1,
-        duration: 1,
-        owner: 1,
-        likesCount: 1,
-        isLiked: 1,
-      },
-    },
-  ]);
-
-  if (!video.length) {
+  if (!video || !video.isPublished) {
     throw new ApiError(404, "Video not found");
   }
 
+  const owner = await User.findById(video.owner)
+    .select("username avatar")
+    .lean();
+
+  if (!owner) {
+    throw new ApiError(404, "Owner not found");
+  }
+
+  const currentUserId = req.user?._id
+    ? new mongoose.Types.ObjectId(req.user._id)
+    : null;
+
+  const [likesAgg, subsAgg] = await Promise.all([
+    Like.aggregate([
+      { $match: { video: new mongoose.Types.ObjectId(videoId) } },
+      {
+        $group: {
+          _id: null,
+          likesCount: { $sum: 1 },
+          likedBy: { $addToSet: "$likedBy" },
+        },
+      },
+    ]),
+    Subscription.aggregate([
+      { $match: { channel: owner._id } },
+      {
+        $group: {
+          _id: null,
+          subscribersCount: { $sum: 1 },
+          subscribers: { $addToSet: "$subscriber" },
+        },
+      },
+    ]),
+  ]);
+
+  const likesData = likesAgg[0] || { likesCount: 0, likedBy: [] };
+  const subsData = subsAgg[0] || { subscribersCount: 0, subscribers: [] };
+
+  const isLiked =
+    !!currentUserId &&
+    likesData.likedBy.some(
+      (id) => id && id.toString() === currentUserId.toString()
+    );
+
+  const isSubscribed =
+    !!currentUserId &&
+    subsData.subscribers.some(
+      (id) => id && id.toString() === currentUserId.toString()
+    );
+
+  // increment views and update watch history for logged-in user
   await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
 
-  await User.findByIdAndUpdate(req.user._id, {
-    $addToSet: { watchHistory: videoId },
-  });
+  if (currentUserId) {
+    await User.findByIdAndUpdate(currentUserId, {
+      $addToSet: { watchHistory: videoId },
+    });
+  }
+
+  const responseData = {
+    _id: video._id,
+    title: video.title,
+    description: video.description,
+    videoFile: video.videoFile,
+    thumbnail: video.thumbnail,
+    views: video.views,
+    createdAt: video.createdAt,
+    duration: video.duration,
+    likesCount: likesData.likesCount || 0,
+    isLiked: Boolean(isLiked),
+    owner: {
+      _id: owner._id,
+      username: owner.username,
+      avatar: owner.avatar,
+      subscribersCount: subsData.subscribersCount || 0,
+      isSubscribed: Boolean(isSubscribed),
+    },
+  };
 
   return res
     .status(200)
-    .json(new ApiResponse(200, video[0], "Video details fetched successfully"));
+    .json(
+      new ApiResponse(200, responseData, "Video details fetched successfully")
+    );
 });
 
 // update video

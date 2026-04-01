@@ -48,9 +48,9 @@ function VideoDetail() {
       <Navbar />
       <Container>
         <div className="app-panel mt-3 rounded-xl p-3 sm:p-4">
-          <Video src={video?.videoFile?.url} poster={video?.thumbnail?.url} />
+          <Video src={video?.videoFile} poster={video?.thumbnail} />
           <Description
-            avatar={video?.owner?.avatar.url}
+            avatar={video?.owner?.avatar}
             channelName={video?.owner?.username}
             createdAt={video?.createdAt}
             description={video?.description}
@@ -76,7 +76,7 @@ function VideoDetail() {
               {comments?.map((comment) => (
                 <CommentList
                   key={comment?._id}
-                  avatar={comment?.owner?.avatar?.url}
+                  avatar={comment?.owner?.avatar}
                   commentId={comment?._id}
                   content={comment?.content}
                   createdAt={comment?.createdAt}

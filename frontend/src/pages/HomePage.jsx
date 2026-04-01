@@ -14,6 +14,7 @@ function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("[HomePage] mount: fetching videos page 1");
     dispatch(getAllVideos({ page: 1, limit: 10 }));
 
     return () => dispatch(makeVideosNull());
@@ -29,6 +30,7 @@ function HomePage() {
 
   const fetchMoreVideos = useCallback(() => {
     if (hasNextPage) {
+      console.log("[HomePage] fetchMoreVideos: fetching page", page + 1);
       dispatch(getAllVideos({ page: page + 1, limit: 10 }))
         .then(() => {
           setPage((prev) => prev + 1);
@@ -57,10 +59,10 @@ function HomePage() {
             {videos?.map((video) => (
               <VideoList
                 key={video._id}
-                avatar={video.ownerDetails?.avatar.url}
+                avatar={video.ownerDetails?.avatar}
                 duration={video.duration}
                 title={video.title}
-                thumbnail={video.thumbnail?.url}
+                thumbnail={video.thumbnail}
                 createdAt={video.createdAt}
                 views={video.views}
                 channelName={video.ownerDetails.username}
