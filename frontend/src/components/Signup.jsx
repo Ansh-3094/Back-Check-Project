@@ -15,11 +15,19 @@ function SignUp() {
     register,
     control,
     setError,
+    clearErrors,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth?.loading);
+  const firstErrorField = [
+    "avatar",
+    "username",
+    "email",
+    "fullName",
+    "password",
+  ].find((field) => errors[field]);
 
   const submit = async (data) => {
     try {
@@ -79,7 +87,7 @@ function SignUp() {
                   cameraIcon
                 />
                 <div className="absolute bottom-2 right-2 cursor-default text-sm hover:text-(--accent)">
-                  cover Image
+                  Cover Image
                 </div>
               </div>
               <div className="absolute left-2 bottom-2 rounded-full border-2">
@@ -125,8 +133,8 @@ function SignUp() {
                                 />
                             </label> */}
             </div>
-            {errors.avatar && (
-              <p className="-mt-2 rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+            {errors.avatar && firstErrorField === "avatar" && (
+              <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
                 {errors.avatar.message}
               </p>
             )}
@@ -137,11 +145,12 @@ function SignUp() {
                 placeholder="Enter Username"
                 {...register("username", {
                   required: "Username is required",
+                  onChange: () => clearErrors("username"),
                 })}
                 className="h-8"
               />
-              {errors.username && (
-                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+              {errors.username && firstErrorField === "username" && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
                   {errors.username.message}
                 </p>
               )}
@@ -153,11 +162,12 @@ function SignUp() {
                 placeholder="Enter Email"
                 {...register("email", {
                   required: "Email is required",
+                  onChange: () => clearErrors("email"),
                 })}
                 className="h-8"
               />
-              {errors.email && (
-                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+              {errors.email && firstErrorField === "email" && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
                   {errors.email.message}
                 </p>
               )}
@@ -169,11 +179,12 @@ function SignUp() {
                 placeholder="Enter Fullname"
                 {...register("fullName", {
                   required: "Fullname is required",
+                  onChange: () => clearErrors("fullName"),
                 })}
                 className="h-8"
               />
-              {errors.fullName && (
-                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+              {errors.fullName && firstErrorField === "fullName" && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
                   {errors.fullName.message}
                 </p>
               )}
@@ -185,11 +196,12 @@ function SignUp() {
                 placeholder="Enter Password"
                 {...register("password", {
                   required: "Password is required",
+                  onChange: () => clearErrors("password"),
                 })}
                 className="h-8"
               />
-              {errors.password && (
-                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-medium tracking-wide text-red-200">
+              {errors.password && firstErrorField === "password" && (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
                   {errors.password.message}
                 </p>
               )}
@@ -198,7 +210,7 @@ function SignUp() {
             <Button
               type="submit"
               bgColor="bg-(--brand)"
-              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
+              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) sm:py-3 sm:text-lg hover:scale-[1.05]"
             >
               Signup
             </Button>
@@ -207,7 +219,7 @@ function SignUp() {
               Already have an account?{" "}
               <Link
                 to={"/login"}
-                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline"
+                className="font-semibold text-[var(--accent)] !underline underline-offset-4 decoration-[1.5px] decoration-(--accent)hover:decoration-[3px] transition-all duration-200"
               >
                 Login
               </Link>

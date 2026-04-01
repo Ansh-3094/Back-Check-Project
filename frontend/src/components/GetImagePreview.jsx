@@ -33,7 +33,7 @@ function GetImagePreview({
           {cameraIcon && (
             <FaCamera
               size={cameraSize}
-              className="hover:text-purple-500 absolute inline-flex justify-center items-center w-full"
+              className="hover:text-red-500 absolute inline-flex justify-center items-center w-full"
             />
           )}
           {/* </div> */}

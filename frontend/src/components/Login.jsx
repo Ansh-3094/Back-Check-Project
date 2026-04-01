@@ -14,10 +14,13 @@ function Login() {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm();
+  } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth?.loading);
+  const firstErrorField = ["username", "password"].find(
+    (field) => errors[field],
+  );
 
   const submit = async (data) => {
     const isEmail = data.username.includes("@");
@@ -56,7 +59,7 @@ function Login() {
 
   return (
     <>
-      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white">
+      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8">
         <div className="app-panel mt-20 flex w-full max-w-xl flex-col items-center justify-center space-y-5 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2 mt-5">
             <Logo textSize="text-3xl" size="40" noLink />
@@ -66,25 +69,29 @@ function Login() {
             <Input
               label="Username / Email : "
               type="text"
-              placeholder="example@gmail.com"
+              placeholder="Enter Username or Email"
+              className="h-8"
               {...register("username", {
                 required: "Username is required",
                 onChange: () => clearErrors("password"),
               })}
             />
-            {errors.username && (
-              <span className="text-red-500">{errors.username.message}</span>
+            {errors.username && firstErrorField === "username" && (
+              <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
+                {errors.username.message}
+              </p>
             )}
             <Input
               label="Password: "
               type="password"
-              placeholder="1kd074fjw0"
+              placeholder="Enter Password"
+              className="h-8"
               {...register("password", {
                 required: "Password is required",
                 onChange: () => clearErrors("password"),
               })}
             />
-            {errors.password && (
+            {errors.password && firstErrorField === "password" && (
               <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm font-medium tracking-wide text-red-200 shadow-[0_0_0_1px_rgba(248,113,113,0.15)]">
                 {errors.password.message}
               </p>
@@ -93,7 +100,7 @@ function Login() {
             <Button
               type="submit"
               bgColor="bg-(--brand)"
-              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) sm:py-3 sm:text-lg"
+              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) hover:scale-[1.05] sm:py-3 sm:text-lg"
             >
               Login
             </Button>
@@ -102,7 +109,7 @@ function Login() {
               Don&apos;t have an account?{" "}
               <Link
                 to={"/signup"}
-                className="cursor-pointer font-semibold text-(--accent) decoration-2 underline-offset-4 transition hover:underline"
+                className="font-semibold text-[var(--accent)] !underline underline-offset-4 decoration-[1.5px] decoration-(--accent)hover:decoration-[3px] transition-all duration-200"
               >
                 SignUp
               </Link>
