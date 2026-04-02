@@ -104,7 +104,7 @@ function TweetsList({
 
           {/* edit and delete dropdown */}
           {editState.isOpen && (
-            <div className="border bg-[#222222] text-lg border-slate-600 absolute text-center right-5 rounded-xl">
+            <div className="border bg-(--surface-strong) text-lg border-(--line) absolute text-center right-5 rounded-xl">
               <ul>
                 <li
                   className="hover:opacity-50 px-5 cursor-pointer border-b border-slate-600"

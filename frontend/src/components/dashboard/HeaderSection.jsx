@@ -12,8 +12,9 @@ function HeaderSection({ username, setPopUp }) {
       </div>
       <div>
         <Button
-          className="bg-(--brand) p-2 font-semibold mr-10 rounded-xl"
-          textColor="text-black"
+          variant="primary"
+          size="md"
+          className="mr-10"
           onClick={() =>
             setPopUp((prev) => ({
               ...prev,

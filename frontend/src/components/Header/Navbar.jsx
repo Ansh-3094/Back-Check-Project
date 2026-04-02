@@ -9,7 +9,7 @@ import {
   SlMenu,
 } from "../icons.js";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { IoMdLogOut } from "react-icons/io";
 import { userLogout } from "../../store/Slices/authSlice.js";
 
@@ -25,6 +25,8 @@ function Navbar() {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isCollectionsPage = location.pathname === "/collections";
 
   const logout = async () => {
     await dispatch(userLogout());
@@ -48,52 +50,68 @@ function Navbar() {
     <>
       <nav className="sticky top-0 z-50 w-full border-b border-(--line) bg-[rgba(15,17,21,0.88)] px-3 py-3 backdrop-blur-xl sm:px-5">
         <div className="mx-auto flex w-full max-w-400 items-center justify-between gap-3 sm:gap-5">
-          <div className="flex items-center justify-center gap-2 cursor-pointer">
-            <Logo />
-          </div>
+          {!isCollectionsPage && (
+            <div className="flex items-center justify-center gap-2 cursor-pointer">
+              <Logo />
+            </div>
+          )}
 
           {/* search for large screens */}
-          <div className="hidden w-full sm:block sm:w-2/5 lg:w-1/3">
-            <Search />
-          </div>
+          {!isCollectionsPage && (
+            <div className="hidden w-full sm:block sm:w-2/5 lg:w-1/3">
+              <Search />
+            </div>
+          )}
 
           {/* search for small screens */}
-          <div className="inline-flex w-full justify-end pr-2 text-(--text) sm:hidden">
-            <CiSearch
-              size={30}
-              fontWeight={"bold"}
-              onClick={() => setOpenSearch((prev) => !prev)}
-            />
-            {openSearch && (
-              <SearchForSmallScreen
-                open={openSearch}
-                setOpenSearch={setOpenSearch}
+          {!isCollectionsPage && (
+            <div className="inline-flex w-full justify-end pr-2 text-(--text) sm:hidden">
+              <CiSearch
+                size={30}
+                fontWeight={"bold"}
+                onClick={() => setOpenSearch((prev) => !prev)}
               />
-            )}
-          </div>
+              {openSearch && (
+                <SearchForSmallScreen
+                  open={openSearch}
+                  setOpenSearch={setOpenSearch}
+                />
+              )}
+            </div>
+          )}
 
           {/* login and signup butons for larger screens */}
-          {authStatus ? (
-            <div className="hidden sm:block rounded-full border border-(--line) p-0.5">
-              <img
-                src={profileImg}
-                alt="profileImg"
-                className="rounded-full w-10 h-10 object-cover"
-              />
-            </div>
-          ) : (
-            <div className="hidden space-x-2 sm:block">
-              <Link to={"/login"}>
-                <Button className="rounded-md border border-(--line) bg-[rgba(255,255,255,0.02)] px-4 py-2 text-sm text-(--text) transition hover:bg-[rgba(255,255,255,0.08)]">
-                  Login
-                </Button>
-              </Link>
-              <Link to={"/signup"}>
-                <Button className="rounded-md border border-(--brand) bg-(--brand) px-4 py-2 text-sm font-semibold text-[#062015] transition hover:bg-(--brand-strong) cursor-pointer">
-                  Sign up
-                </Button>
-              </Link>
-            </div>
+          {!isCollectionsPage && (
+            <>
+              {authStatus ? (
+                <div className="hidden sm:block rounded-full border border-(--line) p-0.5">
+                  <img
+                    src={profileImg}
+                    alt="profileImg"
+                    className="rounded-full w-10 h-10 object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="hidden space-x-2 sm:block">
+                  <Link to={"/login"}>
+                    <Button
+                      variant="ghost"
+                      className="rounded-md border border-(--line) bg-[rgba(255,255,255,0.02)] px-4 py-2 text-sm transition hover:bg-[rgba(255,255,255,0.08)]"
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to={"/signup"}>
+                    <Button
+                      variant="ghost"
+                      className="rounded-md border border-(--brand) bg-(--brand) px-4 py-2 text-sm font-semibold transition hover:bg-(--brand-strong) cursor-pointer"
+                    >
+                      Sign up
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </>
           )}
 
           {/* hamburger for smaller screens */}
@@ -142,12 +160,18 @@ function Navbar() {
               {!authStatus ? (
                 <div className="flex flex-col space-y-5 mb-3">
                   <Link to={"/login"}>
-                    <Button className="w-full rounded-md border border-(--line) bg-[rgba(255,255,255,0.03)] px-3 py-2 transition hover:bg-[rgba(255,255,255,0.1)]">
+                    <Button
+                      variant="ghost"
+                      className="w-full rounded-md border border-(--line) bg-[rgba(255,255,255,0.03)] px-3 py-2 transition hover:bg-[rgba(255,255,255,0.1)]"
+                    >
                       Login
                     </Button>
                   </Link>
                   <Link to={"/signup"}>
-                    <Button className="w-full rounded-md border border-(--brand) bg-(--brand) px-3 py-2 font-semibold text-[#062015] transition hover:bg-(--brand-strong)">
+                    <Button
+                      variant="ghost"
+                      className="w-full rounded-md border border-(--brand) bg-(--brand) px-3 py-2 font-semibold transition hover:bg-(--brand-strong)"
+                    >
                       Sign up
                     </Button>
                   </Link>
