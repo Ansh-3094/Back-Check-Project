@@ -39,7 +39,7 @@ function EditAvatar({ cover, preImage }) {
         />
         {isOpen && (
           <div className="fixed z-50 top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-70">
-            <div className="bg-black p-8 relative border shadow-lg w-full max-w-md">
+            <div className="bg-(--surface) p-8 relative border border-(--line) shadow-lg w-full max-w-md rounded-xl">
               {/* Close button */}
               <button
                 className="absolute top-5 right-5 text-white hover:text-gray-200"
@@ -59,7 +59,7 @@ function EditAvatar({ cover, preImage }) {
                   cameraIcon
                   cameraSize={30}
                   className={
-                    "w-full h-full object-contain min-h-20 max-h-60 bg-[#222222]"
+                    "w-full h-full object-contain min-h-20 max-h-60 bg-(--surface-strong)"
                   }
                   image={preImage}
                 />

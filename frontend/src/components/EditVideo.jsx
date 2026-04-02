@@ -64,9 +64,9 @@ function EditVideo({
       <div className="fixed mt-5 top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-70 z-50">
         <form
           onSubmit={handleSubmit(updateVideo)}
-          className=" bg-black space-y-2 border h-120 overflow-y-scroll outline-none p-2"
+          className="bg-(--surface) space-y-2 border border-(--line) h-120 overflow-y-scroll outline-none p-2 rounded-xl"
         >
-          <div className="sticky left-0 top-0 z-50 bg-[#222222] flex justify-between items-center border-b border-slate-500 px-3 py-1">
+          <div className="sticky left-0 top-0 z-50 bg-(--surface-strong) flex justify-between items-center border-b border-(--line) px-3 py-1">
             <div>
               <h2 className="font-bold">Edit Video</h2>
               <p className="text-xs mb-2">
@@ -111,7 +111,7 @@ function EditVideo({
                 <label>Description *</label>
                 <textarea
                   rows="4"
-                  className="focus:bg-[#222222] text-sm overflow-y-scroll bg-transparent outline-none border w-full mt-1 p-1"
+                  className="text-sm overflow-y-scroll bg-(--surface) outline-none border border-(--line) w-full mt-1 p-2 focus:bg-(--surface-strong)"
                   {...register("description", {
                     required: "Description is required",
                   })}
@@ -122,14 +122,17 @@ function EditVideo({
               </div>
               <div className="flex gap-3">
                 <Button
-                  className="flex-1 border p-2"
+                  variant="secondary"
+                  size="md"
+                  className="flex-1"
                   onClick={handleClosePopUp}
                 >
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 bg-(--brand) p-2 font-bold"
-                  textColor="text-black"
+                  variant="primary"
+                  size="md"
+                  className="flex-1"
                   type="submit"
                 >
                   Update

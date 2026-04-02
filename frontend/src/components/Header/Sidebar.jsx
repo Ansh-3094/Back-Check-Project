@@ -8,7 +8,7 @@ import {
   RiHome6Line,
   TbUserCheck,
 } from "../icons";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
@@ -19,6 +19,8 @@ function Sidebar({ isCollapsed = false, onToggle = () => {} }) {
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const username = useSelector((state) => state.auth?.userData?.username);
+  const { pathname } = useLocation();
+  const isSettingsActive = pathname.startsWith("/edit");
   const sidebarTopItems = [
     {
       icon: <RiHome6Line size={25} />,
@@ -128,9 +130,11 @@ function Sidebar({ isCollapsed = false, onToggle = () => {} }) {
               </div>
             )}
             <NavLink
-              to="/edit/personalInfo"
+              to="/edit"
               className={({ isActive }) =>
-                isActive ? "rounded-lg bg-[rgba(255,59,48,0.22)]" : ""
+                isActive || isSettingsActive
+                  ? "rounded-lg bg-[rgba(255,59,48,0.22)]"
+                  : ""
               }
             >
               <div

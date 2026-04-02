@@ -99,8 +99,9 @@ function Login() {
 
             <Button
               type="submit"
-              bgColor="bg-(--brand)"
-              className="w-full rounded-lg py-2 text-base font-semibold tracking-wide shadow-md shadow-black/30 transition-all duration-200 hover:bg-(--brand-strong) hover:scale-[1.05] sm:py-3 sm:text-lg"
+              variant="primary"
+              size="lg"
+              className="w-full shadow-md shadow-black/30"
             >
               Login
             </Button>
