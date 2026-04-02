@@ -20,13 +20,8 @@ function EditPersonalInfo() {
   }, [auth, setValue]);
 
   const saveChanges = (data) => {
-    dispatch(updateUserDetails(data));
-  };
-
-  const reset = (e) => {
-    e.preventDefault();
-    setValue("fullName", auth?.fullName);
-    setValue("email", auth?.email);
+    // Only allow updating full name from this section
+    dispatch(updateUserDetails({ fullName: data.fullName }));
   };
 
   return (
@@ -59,10 +54,9 @@ function EditPersonalInfo() {
               <Input2
                 label="Email Address"
                 type="email"
-                className="rounded"
-                {...register("email", {
-                  required: "Email is required",
-                })}
+                className="rounded bg-slate-900/40 cursor-not-allowed opacity-75"
+                disabled
+                {...register("email")}
               />
               {errors.email && (
                 <span className="text-sm text-red-500">
@@ -70,13 +64,7 @@ function EditPersonalInfo() {
                 </span>
               )}
             </div>
-            <div className="flex justify-between mt-4">
-              <Button
-                onClick={(e) => reset(e)}
-                className="bg-gray-500 text-white px-4 py-2 rounded"
-              >
-                Reset
-              </Button>
+            <div className="flex justify-end mt-4">
               <Button
                 type="submit"
                 className="bg-(--brand) text-white px-4 py-2 rounded"

@@ -16,6 +16,7 @@ import { userLogout } from "../../store/Slices/authSlice.js";
 function Navbar() {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const authStatus = useSelector((state) => state.auth.status);
   const username = useSelector((state) => state.auth?.userData?.username);
   const profileImg = useSelector(
@@ -154,7 +155,7 @@ function Navbar() {
               ) : (
                 <div
                   className="flex cursor-pointer items-start justify-start gap-2 rounded-md border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,255,255,0.06)]"
-                  onClick={() => logout()}
+                  onClick={() => setShowLogoutConfirm(true)}
                 >
                   <IoMdLogOut size={25} />
                   <span className="text-base">Logout</span>
@@ -164,6 +165,36 @@ function Navbar() {
           </div>
         )}
       </nav>
+
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="w-full max-w-sm rounded-xl border border-slate-700 bg-(--surface-strong) p-5 text-white">
+            <h2 className="mb-2 text-lg font-semibold">Logout</h2>
+            <p className="mb-4 text-sm text-slate-300">
+              Are you sure you want to logout?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowLogoutConfirm(false)}
+                className="rounded-md border border-slate-600 px-4 py-2 text-sm text-slate-200 hover:bg-slate-800/60"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  await logout();
+                  setShowLogoutConfirm(false);
+                }}
+                className="rounded-md bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

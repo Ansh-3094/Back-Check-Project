@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BiHistory,
   BiLike,
@@ -17,6 +17,7 @@ import { userLogout } from "../../store/Slices/authSlice";
 function Sidebar({ isCollapsed = false, onToggle = () => {} }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const username = useSelector((state) => state.auth?.userData?.username);
   const sidebarTopItems = [
     {
@@ -120,7 +121,7 @@ function Sidebar({ isCollapsed = false, onToggle = () => {} }) {
             {username && (
               <div
                 className={`flex cursor-pointer items-center rounded-lg border border-(--line) px-2 py-2 transition hover:bg-[rgba(255,59,48,0.14)] ${isCollapsed ? "justify-center" : "justify-start gap-3"}`}
-                onClick={() => logout()}
+                onClick={() => setShowLogoutConfirm(true)}
               >
                 <IoMdLogOut size={25} />
                 {!isCollapsed && <span className="text-sm">Logout</span>}
@@ -160,6 +161,36 @@ function Sidebar({ isCollapsed = false, onToggle = () => {} }) {
           </NavLink>
         ))}
       </div>
+
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="w-full max-w-sm rounded-xl border border-slate-700 bg-(--surface-strong) p-5 text-white">
+            <h2 className="mb-2 text-lg font-semibold">Logout</h2>
+            <p className="mb-4 text-sm text-slate-300">
+              Are you sure you want to logout?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowLogoutConfirm(false)}
+                className="rounded-md border border-slate-600 px-4 py-2 text-sm text-slate-200 hover:bg-slate-800/60"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  await logout();
+                  setShowLogoutConfirm(false);
+                }}
+                className="rounded-md bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

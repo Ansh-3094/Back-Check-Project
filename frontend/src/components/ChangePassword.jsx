@@ -2,7 +2,8 @@ import React from "react";
 import { Input2, Button } from "../components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { changePassword } from "../store/Slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { changePassword, userLogout } from "../store/Slices/authSlice";
 
 function ChangePassword() {
   const {
@@ -13,17 +14,32 @@ function ChangePassword() {
     resetField,
   } = useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    dispatch(
-      changePassword({
-        oldPassword: data?.oldPassword,
-        newPassword: data?.oldPassword,
-      }),
-    );
-    resetField("oldPassword");
-    resetField("newPassword");
-    resetField("confirmPassword");
+  const onSubmit = async (data) => {
+    try {
+      const resultAction = await dispatch(
+        changePassword({
+          oldPassword: data?.oldPassword,
+          newPassword: data?.newPassword,
+        }),
+      );
+
+      // Only proceed if password change succeeded
+      if (
+        changePassword.fulfilled &&
+        changePassword.fulfilled.match(resultAction)
+      ) {
+        resetField("oldPassword");
+        resetField("newPassword");
+        resetField("confirmPassword");
+
+        await dispatch(userLogout());
+        navigate("/login");
+      }
+    } catch (error) {
+      // If password change fails, do not log out; errors are already surfaced via toast or form
+    }
   };
 
   return (

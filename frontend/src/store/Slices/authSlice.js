@@ -153,7 +153,8 @@ export const updateUserDetails = createAsyncThunk(
     try {
       const response = await axiosInstance.patch("/users/update-account", data);
       toast.success("Updated details successfully!!!");
-      return response.data;
+      // Keep auth.userData shape consistent with login/getCurrentUser/updateAvatar/cover
+      return response.data?.data;
     } catch (error) {
       // toast.error(error?.response?.data?.error);
       throw error;
