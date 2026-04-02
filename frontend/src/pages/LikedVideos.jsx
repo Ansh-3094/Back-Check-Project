@@ -20,28 +20,28 @@ function LikedVideos() {
     return <HomeSkeleton />;
   }
 
-  if (likedVideos?.length == 0) {
-    return <NoVideosFound />;
-  }
-
   return (
     <Container>
       <div className="app-panel rounded-xl p-3 sm:p-4">
-        <div className="mb-20 grid max-h-[calc(100vh-140px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-3">
-          {likedVideos?.map((video) => (
-            <VideoList
-              key={video.likedVideo._id}
-              avatar={video.likedVideo.ownerDetails?.avatar}
-              duration={video.likedVideo.duration}
-              title={video.likedVideo.title}
-              thumbnail={video.likedVideo.thumbnail}
-              createdAt={video.likedVideo.createdAt}
-              views={video.likedVideo.views}
-              channelName={video.likedVideo.ownerDetails?.username}
-              videoId={video.likedVideo._id}
-            />
-          ))}
-        </div>
+        {likedVideos?.length === 0 ? (
+          <NoVideosFound />
+        ) : (
+          <div className="mb-20 grid max-h-[calc(100vh-140px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-3">
+            {likedVideos?.map((video) => (
+              <VideoList
+                key={video.likedVideo._id}
+                avatar={video.likedVideo.ownerDetails?.avatar}
+                duration={video.likedVideo.duration}
+                title={video.likedVideo.title}
+                thumbnail={video.likedVideo.thumbnail}
+                createdAt={video.likedVideo.createdAt}
+                views={video.likedVideo.views}
+                channelName={video.likedVideo.ownerDetails?.username}
+                videoId={video.likedVideo._id}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </Container>
   );

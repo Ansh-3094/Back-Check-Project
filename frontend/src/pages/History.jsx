@@ -17,16 +17,14 @@ function History() {
     return <HomeSkeleton />;
   }
 
-  if (videos?.length == 0) {
-    return <NoVideosFound />;
-  }
-
-  if (videos && videos.length > 0) {
-    return (
-      <Container>
-        <div className="app-panel rounded-xl p-3 sm:p-4">
+  return (
+    <Container>
+      <div className="app-panel rounded-xl p-3 sm:p-4">
+        {videos?.length === 0 ? (
+          <NoVideosFound />
+        ) : (
           <div className="mb-20 grid max-h-[calc(100vh-140px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-3">
-            {videos.map((video) => (
+            {videos?.map((video) => (
               <VideoList
                 key={video._id}
                 avatar={video.owner?.avatar?.url || video.owner?.avatar}
@@ -40,11 +38,10 @@ function History() {
               />
             ))}
           </div>
-        </div>
-      </Container>
-    );
-  }
-  return <></>;
+        )}
+      </div>
+    </Container>
+  );
 }
 
 export default History;

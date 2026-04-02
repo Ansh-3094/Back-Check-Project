@@ -23,8 +23,8 @@ function UploadingVideo({
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-70 z-50">
-        <div className="w-96 p-3 text-white border outline-none rounded-lg space-y-5 border-slate-700 bg-black">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+        <div className="w-full max-w-md space-y-5 rounded-xl border border-(--line) bg-(--surface-strong) p-4 text-white shadow-xl">
           <div className="flex items-start justify-between">
             <div>
               {uploaded ? (

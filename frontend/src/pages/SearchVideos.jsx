@@ -34,12 +34,18 @@ function SearchVideos() {
     setSearchParms({ sortBy: newSortBy, sortType: newSortType });
   };
 
-  if (videos?.totalDocs === 0) {
-    return <NoVideosFound text={"Try searching something else"} />;
-  }
-
   if (loading) {
     return <HomeSkeleton />;
+  }
+
+  if (videos?.totalDocs === 0) {
+    return (
+      <Container>
+        <div className="app-panel rounded-xl p-3 sm:p-4 text-white">
+          <NoVideosFound text={"Try searching something else"} />
+        </div>
+      </Container>
+    );
   }
 
   return (

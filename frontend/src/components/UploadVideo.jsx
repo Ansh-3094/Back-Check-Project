@@ -51,8 +51,8 @@ function UploadVideo({ setUploadVideoPopup }) {
 
   return (
     <>
-      <div className="fixed top-5 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-70 z-30">
-        <div className="relative w-[95vw] sm:w-3/4 h-[80vh] sm:h-[80vh] mx-auto text-white border overflow-y-scroll bg-black">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+        <div className="relative mx-auto h-[80vh] w-[95vw] overflow-y-scroll border border-(--line) bg-(--surface) text-white sm:h-[80vh] sm:w-3/4">
           <form onSubmit={handleSubmit(publishVideo)} className="space-y-5">
             <section className="h-12 sticky top-0 z-50 border-b w-full bg-(--surface-strong) flex justify-between items-center px-3">
               <div className="flex gap-1 items-center cursor-pointer">
