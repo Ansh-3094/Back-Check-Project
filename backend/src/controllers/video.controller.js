@@ -6,6 +6,7 @@ import { Comment } from "../models/comment.model.js";
 import { uploadOnCloudinary, deleteOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose, { isValidObjectId } from "mongoose";
+import jwt from "jsonwebtoken";
 import { Like } from "../models/like.model.js";
 import { Subscription } from "../models/subscription.model.js";
 
@@ -150,9 +151,30 @@ const getVideoById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Owner not found");
   }
 
-  const currentUserId = req.user?._id
-    ? new mongoose.Types.ObjectId(req.user._id)
-    : null;
+  // Determine current user (if any) from token so watch history and like/subscription
+  // state work even though this route is public.
+  let currentUserId = null;
+
+  if (req.user?._id) {
+    currentUserId = new mongoose.Types.ObjectId(req.user._id);
+  } else {
+    try {
+      const token =
+        req.cookies?.accessToken ||
+        req.header("Authorization")?.replace("Bearer ", "");
+
+      if (token) {
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+        if (decodedToken?._id) {
+          currentUserId = new mongoose.Types.ObjectId(decodedToken._id);
+        }
+      }
+    } catch (error) {
+      // If token is missing/invalid, treat as anonymous viewer.
+      currentUserId = null;
+    }
+  }
 
   const [likesAgg, subsAgg] = await Promise.all([
     Like.aggregate([

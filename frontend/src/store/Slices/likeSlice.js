@@ -48,7 +48,8 @@ export const toggleCommentLike = createAsyncThunk(
 
 export const getLikedVideos = createAsyncThunk("getLikedVideos", async () => {
   try {
-    const response = await axiosInstance.get("likes/videos");
+    // Use absolute path so it correctly appends to BASE_URL (which ends with /api/v1)
+    const response = await axiosInstance.get("/likes/videos");
     return response.data.data;
   } catch (error) {
     // toast.error(error?.response?.data?.error);

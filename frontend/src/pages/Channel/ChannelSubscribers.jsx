@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserChannelSubscribers } from "../../store/Slices/subscriptionSlice";
-import { Avatar, Button } from "../../components";
+import { Avatar } from "../../components";
 import { Link } from "react-router-dom";
 
 function ChannelSubscribers() {
@@ -19,6 +19,10 @@ function ChannelSubscribers() {
 
   return (
     <div className="space-y-2">
+      {(!subscribers || subscribers.length === 0) && (
+        <p className="text-sm text-slate-400">No subscribers found yet.</p>
+      )}
+
       {subscribers?.map((subscriber) => (
         <Link
           key={subscriber?.subscriber?._id}
@@ -26,7 +30,10 @@ function ChannelSubscribers() {
         >
           <div className="flex items-center gap-3">
             <Avatar
-              src={subscriber?.subscriber?.avatar.url}
+              src={
+                subscriber?.subscriber?.avatar?.url ||
+                subscriber?.subscriber?.avatar
+              }
               channelName={subscriber?.subscriber?.username}
             />
             <div>
@@ -35,13 +42,6 @@ function ChannelSubscribers() {
                 {subscriber?.subscriber?.subscribersCount} Subscribers
               </span>
             </div>
-          </div>
-          <div>
-            <Button className="bg-(--brand) text-xs py-1 px-2 text-white">
-              {subscriber?.subscriber?.subscribedToSubscriber
-                ? "Subscribed"
-                : "subscribe"}
-            </Button>
           </div>
         </Link>
       ))}

@@ -69,6 +69,7 @@ function App() {
               </AuthLayout>
             }
           >
+            <Route index element={<Navigate to="videos" replace />} />
             <Route
               path="videos"
               element={

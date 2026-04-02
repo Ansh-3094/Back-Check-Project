@@ -58,7 +58,9 @@ function MySubscriptions() {
                   }
                   title={subscription?.subscribedChannel?.latestVideo?.title}
                   thumbnail={
-                    subscription?.subscribedChannel?.latestVideo?.thumbnail?.url
+                    subscription?.subscribedChannel?.latestVideo?.thumbnail
+                      ?.url ||
+                    subscription?.subscribedChannel?.latestVideo?.thumbnail
                   }
                   createdAt={
                     subscription?.subscribedChannel?.latestVideo?.createdAt

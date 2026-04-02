@@ -407,6 +407,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     //Projection means it($projection) sends selected values
     {
       $project: {
+        _id: 1,
         fullName: 1,
         username: 1,
         subscribersCount: 1,
