@@ -52,7 +52,7 @@ function Description({
                   {timeAgo(createdAt)}
                 </span>
               </div>
-              <div className=" rounded-full w-24 flex justify-center bg-[#222222] py-1">
+              <div className="rounded-full w-24 flex justify-center  py-1">
                 <Like
                   isLiked={isLiked}
                   videoId={videoId}
@@ -80,7 +80,9 @@ function Description({
               <div onClick={handleSubsribe}>
                 <Button
                   onClick={handleSubscribe}
-                  className="border-slate-500 hover:scale-110 transition-all text-black font-bold px-4 py-1 bg-(--brand)"
+                  variant="primary"
+                  size="lg"
+                  className="min-w-[100px] py-2"
                 >
                   {localIsSubscribed ? "Subscribed" : "Subscribe"}
                 </Button>
@@ -88,7 +90,7 @@ function Description({
             </div>
           </div>
         </div>
-        <p className="text-xs bg-[#222222] rounded-lg p-2 outline-none">
+        <p className="text-xs bg-(--surface-strong) rounded-lg p-2 outline-none">
           {description}
         </p>
       </section>

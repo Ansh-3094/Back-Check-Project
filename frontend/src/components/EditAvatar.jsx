@@ -38,11 +38,12 @@ function EditAvatar({ cover, preImage }) {
           onClick={() => setIsOpen((prev) => !prev)}
         />
         {isOpen && (
-          <div className="fixed z-50 top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-70">
-            <div className="bg-(--surface) p-8 relative border border-(--line) shadow-lg w-full max-w-md rounded-xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+            <div className="relative w-full max-w-md rounded-xl border border-(--line) bg-(--surface) p-8 text-white shadow-xl">
               {/* Close button */}
               <button
-                className="absolute top-5 right-5 text-white hover:text-gray-200"
+                type="button"
+                className="absolute right-5 top-5 text-slate-300 hover:text-white"
                 onClick={() => setIsOpen(false)}
               >
                 <MdClose size={20} />
