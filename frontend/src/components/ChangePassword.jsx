@@ -102,10 +102,7 @@ function ChangePassword() {
             )}
           </div>
           <div className="flex justify-center mt-4">
-            <Button
-              type="submit"
-              className="bg-(--brand) text-white px-4 py-2 rounded"
-            >
+            <Button type="submit" variant="primary" size="md">
               Change Password
             </Button>
           </div>

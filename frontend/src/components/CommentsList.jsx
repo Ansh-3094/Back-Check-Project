@@ -14,7 +14,10 @@ function CommentsList({
   isLiked,
   likesCount,
 }) {
-  const avatar2 = useSelector((state) => state.auth?.userData?.avatar.url);
+  const avatar2 = useSelector(
+    (state) =>
+      state.auth?.userData?.avatar?.url || state.auth?.userData?.avatar,
+  );
   const authUsername = useSelector((state) => state.auth?.userData?.username);
   const dispatch = useDispatch();
 
@@ -49,10 +52,17 @@ function CommentsList({
     <>
       <div className="text-white w-full flex justify-start items-center sm:gap-5 gap-3 border-b border-slate-600 p-3 sm:p-5">
         <div className="w-12">
-          <img
-            src={avatar || avatar2}
-            className="w-10 h-10 object-cover rounded-full"
-          />
+          {/** avatar can be an object ({ url }) or a plain string; fall back to current user avatar */}
+          {(() => {
+            const avatarUrl = avatar?.url || avatar || avatar2;
+            return (
+              <img
+                src={avatarUrl}
+                alt="comment avatar"
+                className="w-10 h-10 object-cover rounded-full"
+              />
+            );
+          })()}
         </div>
         <div className="w-full flex flex-col gap-1 relative">
           <div className="flex items-center gap-2">
@@ -75,7 +85,7 @@ function CommentsList({
                 />
 
                 {editState.isOpen && (
-                  <div className="border bg-[#222222] text-lg border-slate-600 absolute text-center right-2 rounded-xl">
+                  <div className="border bg-(--surface-strong) text-lg border-(--line) absolute text-center right-2 rounded-xl">
                     <ul>
                       <li
                         className="hover:opacity-50 px-5 cursor-pointer border-b border-slate-600"

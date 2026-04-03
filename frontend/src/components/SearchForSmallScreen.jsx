@@ -33,13 +33,10 @@ function SearchForSmallScreen({ open, setOpenSearch }) {
               <Input
                 type="text"
                 placeholder="Search"
-                className="px-4 py-2 border border-gray-300 focus:outline-none"
+                className="mr-2"
                 {...register("query", { required: true })}
               />
-              <Button
-                type="submit"
-                className="px-4 py-2 bg-(--brand) text-white font-semibold hover:bg-(--brand-strong) focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-              >
+              <Button type="submit" variant="primary" size="md">
                 Search
               </Button>
             </form>

@@ -143,6 +143,7 @@ function App() {
               </AuthLayout>
             }
           >
+            <Route index element={<Navigate to="personalInfo" replace />} />
             <Route
               path="personalInfo"
               element={
