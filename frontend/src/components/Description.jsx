@@ -16,6 +16,7 @@ function Description({
   isSubscribed,
   description,
   isLiked,
+  isDisliked,
   videoId,
   channelId,
 }) {
@@ -55,6 +56,7 @@ function Description({
               <div className="rounded-full w-24 flex justify-center  py-1">
                 <Like
                   isLiked={isLiked}
+                  isDisliked={isDisliked}
                   videoId={videoId}
                   likesCount={likesCount}
                   size={25}

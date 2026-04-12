@@ -4,6 +4,9 @@ import {
   toggleVideoLike,
   toggleCommentLike,
   toggleTweetLike,
+  toggleVideoDislike,
+  toggleCommentDislike,
+  toggleTweetDislike,
 } from "../controllers/like.controller.js";
 import { verifyJWT } from "../middlewares/authentication.middleware.js";
 
@@ -13,5 +16,8 @@ router.use(verifyJWT);
 router.route("/toggle/v/:videoId").post(toggleVideoLike);
 router.route("/toggle/c/:commentId").post(toggleCommentLike);
 router.route("/toggle/t/:tweetId").post(toggleTweetLike);
+router.route("/toggle/dislike/v/:videoId").post(toggleVideoDislike);
+router.route("/toggle/dislike/c/:commentId").post(toggleCommentDislike);
+router.route("/toggle/dislike/t/:tweetId").post(toggleTweetDislike);
 router.route("/videos").get(getLikedVideos);
 export default router;

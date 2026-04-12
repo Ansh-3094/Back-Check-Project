@@ -12,6 +12,7 @@ function CommentsList({
   content,
   commentId,
   isLiked,
+  isDisliked,
   likesCount,
 }) {
   const avatar2 = useSelector(
@@ -153,6 +154,7 @@ function CommentsList({
           {/* Like for comments */}
           <Like
             isLiked={isLiked}
+            isDisliked={isDisliked}
             likesCount={likesCount}
             commentId={commentId}
             size={17}

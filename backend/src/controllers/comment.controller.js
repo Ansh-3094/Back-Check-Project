@@ -33,9 +33,49 @@ const getVideoComments = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "likes",
-        localField: "_id",
-        foreignField: "comment",
+        let: { commentId: "$_id" },
         as: "likes",
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$comment", "$$commentId"] },
+                  { $ne: ["$isDislike", true] },
+                ],
+              },
+            },
+          },
+          {
+            $project: {
+              likedBy: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        let: { commentId: "$_id" },
+        as: "dislikes",
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$comment", "$$commentId"] },
+                  { $eq: ["$isDislike", true] },
+                ],
+              },
+            },
+          },
+          {
+            $project: {
+              likedBy: 1,
+            },
+          },
+        ],
       },
     },
     {
@@ -49,6 +89,13 @@ const getVideoComments = asyncHandler(async (req, res) => {
         isLiked: {
           $cond: {
             if: { $in: [req.user?._id, "$likes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+        isDisliked: {
+          $cond: {
+            if: { $in: [req.user?._id, "$dislikes.likedBy"] },
             then: true,
             else: false,
           },
@@ -71,6 +118,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
           "avatar.url": 1,
         },
         isLiked: 1,
+        isDisliked: 1,
       },
     },
   ]);

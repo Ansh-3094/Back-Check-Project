@@ -176,9 +176,14 @@ const getVideoById = asyncHandler(async (req, res) => {
     }
   }
 
-  const [likesAgg, subsAgg] = await Promise.all([
+  const [likesAgg, subsAgg, dislikeReaction] = await Promise.all([
     Like.aggregate([
-      { $match: { video: new mongoose.Types.ObjectId(videoId) } },
+      {
+        $match: {
+          video: new mongoose.Types.ObjectId(videoId),
+          isDislike: { $ne: true },
+        },
+      },
       {
         $group: {
           _id: null,
@@ -197,6 +202,15 @@ const getVideoById = asyncHandler(async (req, res) => {
         },
       },
     ]),
+    currentUserId
+      ? Like.findOne({
+          video: new mongoose.Types.ObjectId(videoId),
+          likedBy: currentUserId,
+          isDislike: true,
+        })
+          .select("_id")
+          .lean()
+      : Promise.resolve(null),
   ]);
 
   const likesData = likesAgg[0] || { likesCount: 0, likedBy: [] };
@@ -213,7 +227,6 @@ const getVideoById = asyncHandler(async (req, res) => {
     subsData.subscribers.some(
       (id) => id && id.toString() === currentUserId.toString()
     );
-
   // increment views and update watch history for logged-in user
   const currentViews = Number(video.views || 0);
   await Video.findByIdAndUpdate(videoId, {
@@ -237,6 +250,7 @@ const getVideoById = asyncHandler(async (req, res) => {
     duration: video.duration,
     likesCount: likesData.likesCount || 0,
     isLiked: Boolean(isLiked),
+    isDisliked: Boolean(dislikeReaction),
     owner: {
       _id: owner._id,
       username: owner.username,

@@ -34,9 +34,20 @@ const getChannelStats = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "likes",
-        localField: "_id",
-        foreignField: "video",
+        let: { videoId: "$_id" },
         as: "likes",
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$video", "$$videoId"] },
+                  { $ne: ["$isDislike", true] },
+                ],
+              },
+            },
+          },
+        ],
       },
     },
     {
@@ -91,9 +102,20 @@ const getChannelVideos = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "likes",
-        localField: "_id",
-        foreignField: "video",
+        let: { videoId: "$_id" },
         as: "likes",
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$video", "$$videoId"] },
+                  { $ne: ["$isDislike", true] },
+                ],
+              },
+            },
+          },
+        ],
       },
     },
     {

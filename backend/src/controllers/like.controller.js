@@ -14,6 +14,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
   const likedAlready = await Like.findOne({
     video: videoId,
     likedBy: req.user?._id,
+    isDislike: { $ne: true },
   });
 
   if (likedAlready) {
@@ -25,6 +26,13 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
   await Like.create({
     video: videoId,
     likedBy: req.user?._id,
+    isDislike: false,
+  });
+
+  await Like.deleteMany({
+    video: videoId,
+    likedBy: req.user?._id,
+    isDislike: true,
   });
 
   return res.status(200).json(new ApiResponse(200, { isLiked: true }));
@@ -40,6 +48,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
   const likedAlready = await Like.findOne({
     comment: commentId,
     likedBy: req.user?._id,
+    isDislike: { $ne: true },
   });
 
   if (likedAlready) {
@@ -51,6 +60,13 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
   await Like.create({
     comment: commentId,
     likedBy: req.user?._id,
+    isDislike: false,
+  });
+
+  await Like.deleteMany({
+    comment: commentId,
+    likedBy: req.user?._id,
+    isDislike: true,
   });
 
   return res.status(200).json(new ApiResponse(200, { isLiked: true }));
@@ -66,6 +82,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
   const likedAlready = await Like.findOne({
     tweet: tweetId,
     likedBy: req.user?._id,
+    isDislike: { $ne: true },
   });
 
   if (likedAlready) {
@@ -79,9 +96,115 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
   await Like.create({
     tweet: tweetId,
     likedBy: req.user?._id,
+    isDislike: false,
+  });
+
+  await Like.deleteMany({
+    tweet: tweetId,
+    likedBy: req.user?._id,
+    isDislike: true,
   });
 
   return res.status(200).json(new ApiResponse(200, { isLiked: true }));
+});
+
+const toggleVideoDislike = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid videoId");
+  }
+
+  const dislikedAlready = await Like.findOne({
+    video: videoId,
+    likedBy: req.user?._id,
+    isDislike: true,
+  });
+
+  if (dislikedAlready) {
+    await Like.findByIdAndDelete(dislikedAlready?._id);
+    return res.status(200).json(new ApiResponse(200, { isDisliked: false }));
+  }
+
+  await Like.deleteMany({
+    video: videoId,
+    likedBy: req.user?._id,
+    isDislike: { $ne: true },
+  });
+
+  await Like.create({
+    video: videoId,
+    likedBy: req.user?._id,
+    isDislike: true,
+  });
+
+  return res.status(200).json(new ApiResponse(200, { isDisliked: true }));
+});
+
+const toggleCommentDislike = asyncHandler(async (req, res) => {
+  const { commentId } = req.params;
+
+  if (!isValidObjectId(commentId)) {
+    throw new ApiError(400, "Invalid commentId");
+  }
+
+  const dislikedAlready = await Like.findOne({
+    comment: commentId,
+    likedBy: req.user?._id,
+    isDislike: true,
+  });
+
+  if (dislikedAlready) {
+    await Like.findByIdAndDelete(dislikedAlready?._id);
+    return res.status(200).json(new ApiResponse(200, { isDisliked: false }));
+  }
+
+  await Like.deleteMany({
+    comment: commentId,
+    likedBy: req.user?._id,
+    isDislike: { $ne: true },
+  });
+
+  await Like.create({
+    comment: commentId,
+    likedBy: req.user?._id,
+    isDislike: true,
+  });
+
+  return res.status(200).json(new ApiResponse(200, { isDisliked: true }));
+});
+
+const toggleTweetDislike = asyncHandler(async (req, res) => {
+  const { tweetId } = req.params;
+
+  if (!isValidObjectId(tweetId)) {
+    throw new ApiError(400, "Invalid tweetId");
+  }
+
+  const dislikedAlready = await Like.findOne({
+    tweet: tweetId,
+    likedBy: req.user?._id,
+    isDislike: true,
+  });
+
+  if (dislikedAlready) {
+    await Like.findByIdAndDelete(dislikedAlready?._id);
+    return res.status(200).json(new ApiResponse(200, { isDisliked: false }));
+  }
+
+  await Like.deleteMany({
+    tweet: tweetId,
+    likedBy: req.user?._id,
+    isDislike: { $ne: true },
+  });
+
+  await Like.create({
+    tweet: tweetId,
+    likedBy: req.user?._id,
+    isDislike: true,
+  });
+
+  return res.status(200).json(new ApiResponse(200, { isDisliked: true }));
 });
 
 const getLikedVideos = asyncHandler(async (req, res) => {
@@ -89,6 +212,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     {
       $match: {
         likedBy: new mongoose.Types.ObjectId(req.user?._id),
+        isDislike: { $ne: true },
       },
     },
     {
@@ -155,4 +279,12 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     );
 });
 
-export { toggleVideoLike, toggleCommentLike, toggleTweetLike, getLikedVideos };
+export {
+  toggleVideoLike,
+  toggleCommentLike,
+  toggleTweetLike,
+  toggleVideoDislike,
+  toggleCommentDislike,
+  toggleTweetDislike,
+  getLikedVideos,
+};

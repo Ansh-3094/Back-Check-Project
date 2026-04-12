@@ -61,6 +61,7 @@ function VideoDetail() {
             views={video?.views}
             key={video?._id}
             isLiked={video?.isLiked}
+            isDisliked={video?.isDisliked}
             videoId={video?._id}
             channelId={video?.owner?._id}
           />
@@ -82,6 +83,7 @@ function VideoDetail() {
                   createdAt={comment?.createdAt}
                   fullName={comment?.owner?.fullName}
                   isLiked={comment?.isLiked}
+                  isDisliked={comment?.isDisliked}
                   likesCount={comment?.likesCount}
                   username={comment?.owner?.username}
                 />

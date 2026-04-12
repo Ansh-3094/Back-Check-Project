@@ -20,6 +20,20 @@ export const toggleVideoLike = createAsyncThunk(
   },
 );
 
+export const toggleVideoDislike = createAsyncThunk(
+  "toggleVideoDislike",
+  async (videoId) => {
+    try {
+      const response = await axiosInstance.post(
+        `/likes/toggle/dislike/v/${videoId}`,
+      );
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
 export const toggleTweetLike = createAsyncThunk(
   "toggleTweetLike",
   async (tweetId) => {
@@ -33,6 +47,20 @@ export const toggleTweetLike = createAsyncThunk(
   },
 );
 
+export const toggleTweetDislike = createAsyncThunk(
+  "toggleTweetDislike",
+  async (tweetId) => {
+    try {
+      const response = await axiosInstance.post(
+        `/likes/toggle/dislike/t/${tweetId}`,
+      );
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
 export const toggleCommentLike = createAsyncThunk(
   "toggleCommentLike",
   async (commentId) => {
@@ -41,6 +69,20 @@ export const toggleCommentLike = createAsyncThunk(
       return response.data.data;
     } catch (error) {
       // toast.error(error?.response?.data?.error);
+      throw error;
+    }
+  },
+);
+
+export const toggleCommentDislike = createAsyncThunk(
+  "toggleCommentDislike",
+  async (commentId) => {
+    try {
+      const response = await axiosInstance.post(
+        `/likes/toggle/dislike/c/${commentId}`,
+      );
+      return response.data.data;
+    } catch (error) {
       throw error;
     }
   },
