@@ -18,6 +18,7 @@ function Search() {
         <Input
           placeholder="Search"
           {...register("query", { required: true })}
+          className="rounded"
         />
       </form>
     </>

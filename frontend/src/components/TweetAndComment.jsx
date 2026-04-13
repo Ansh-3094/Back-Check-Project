@@ -28,9 +28,9 @@ function TweetAndComment({ tweet, comment, videoId }) {
       >
         <textarea
           placeholder={`${tweet ? "Write a tweet" : "Add a Comment"}`}
-          className="p-2 text-sm pr-16 focus:border-white text-white border border-slate-500 bg-[#222222] outline-none w-full"
+          className="p-2 text-sm pr-16 focus:border-white text-white border border-slate-500 bg-[#222222] outline-none w-full rounded"
           {...register("content", { required: true })}
-          rows={2}
+          rows={2}  
         />
         <Button
           type="submit"

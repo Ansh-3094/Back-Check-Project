@@ -15,6 +15,20 @@ const initialState = {
   publishToggled: false,
 };
 
+const mergeUniqueVideosById = (existingDocs = [], incomingDocs = []) => {
+  const seen = new Set(existingDocs.map((video) => video?._id));
+  const merged = [...existingDocs];
+
+  incomingDocs.forEach((video) => {
+    if (!seen.has(video?._id)) {
+      seen.add(video?._id);
+      merged.push(video);
+    }
+  });
+
+  return merged;
+};
+
 export const getAllVideos = createAsyncThunk(
   "getAllVideos",
   async ({ userId, sortBy, sortType, query, page, limit }) => {
@@ -132,6 +146,7 @@ const videoSlice = createSlice({
     },
     makeVideosNull: (state) => {
       state.videos.docs = [];
+      state.videos.hasNextPage = false;
     },
   },
   extraReducers: (builder) => {
@@ -144,7 +159,18 @@ const videoSlice = createSlice({
         totalDocs: action.payload?.totalDocs,
       });
       state.loading = false;
-      state.videos.docs = [...state.videos.docs, ...action.payload.docs];
+      const currentPage = Number(action.meta?.arg?.page) || 1;
+      const incomingDocs = action.payload?.docs || [];
+
+      if (currentPage === 1) {
+        state.videos.docs = mergeUniqueVideosById([], incomingDocs);
+      } else {
+        state.videos.docs = mergeUniqueVideosById(
+          state.videos.docs,
+          incomingDocs,
+        );
+      }
+
       state.videos.hasNextPage = action.payload.hasNextPage;
     });
     builder.addCase(getAllVideos.rejected, (state, action) => {

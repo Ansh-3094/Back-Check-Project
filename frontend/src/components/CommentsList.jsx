@@ -8,6 +8,7 @@ import { deleteAComment, editAComment } from "../store/Slices/commentSlice";
 function CommentsList({
   avatar,
   username,
+  fullName,
   createdAt,
   content,
   commentId,
@@ -21,6 +22,7 @@ function CommentsList({
   );
   const authUsername = useSelector((state) => state.auth?.userData?.username);
   const dispatch = useDispatch();
+  const displayName = username || fullName || "User";
 
   const [editState, setEditState] = useState({
     editing: false,
@@ -67,7 +69,8 @@ function CommentsList({
         </div>
         <div className="w-full flex flex-col gap-1 relative">
           <div className="flex items-center gap-2">
-            <h2 className="text-xs">{username}</h2>
+            <h2 className="text-xs">{displayName}</h2>
+            <span className="text-xs text-slate-500">•</span>
             <span className="text-xs text-slate-400">{timeAgo(createdAt)}</span>
           </div>
 

@@ -59,7 +59,13 @@ function ChannelHeader({
               )}
             </div>
           ) : (
-            <div className="sm:h-40 h-28 w-full border-slate-600 border-b bg-black"></div>
+            <div className="relative sm:h-40 h-28 w-full border-slate-600 border-b bg-black">
+              {edit && (
+                <div className="absolute inset-0 flex justify-center items-center">
+                  <EditAvatar cover={true} preImage={coverImage} />
+                </div>
+              )}
+            </div>
           )}
         </section>
         {/*channel details section  */}

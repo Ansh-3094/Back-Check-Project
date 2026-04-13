@@ -114,7 +114,7 @@ function UploadVideo({ setUploadVideoPopup }) {
                     className={"w-full h-56 border object-contain"}
                     cameraIcon={true}
                     cameraSize={40}
-                    rules={{ required: "thumbnail is required" }}
+                    rules={{ required: "Thumbnail is required" }}
                   />
                   <span className="text-red-500 text-xs">
                     {errors.thumbnail?.message}

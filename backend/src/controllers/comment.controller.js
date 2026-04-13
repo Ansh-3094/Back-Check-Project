@@ -115,7 +115,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
         owner: {
           username: 1,
           fullName: 1,
-          "avatar.url": 1,
+          avatar: 1,
         },
         isLiked: 1,
         isDisliked: 1,
@@ -160,9 +160,20 @@ const addComment = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to add comment please try again");
   }
 
+  const populatedComment = await Comment.findById(comment._id)
+    .populate("owner", "username fullName avatar")
+    .lean();
+
+  const responseComment = {
+    ...populatedComment,
+    likesCount: 0,
+    isLiked: false,
+    isDisliked: false,
+  };
+
   return res
     .status(201)
-    .json(new ApiResponse(201, comment, "Comment added successfully"));
+    .json(new ApiResponse(201, responseComment, "Comment added successfully"));
 });
 
 // update a comment

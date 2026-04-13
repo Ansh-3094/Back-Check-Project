@@ -43,7 +43,7 @@ function VideoList({
           <div>
             <h2 className="font-medium">{title}</h2>
             <div className="text-xs space-x-1 text-slate-400">
-              <span>{views} Views</span> .<span>{timeAgo(createdAt)}</span>
+              <span>{views} Views</span>•<span>{timeAgo(createdAt)}</span>
             </div>
             {channelName && (
               <h2 className="text-xs space-x-1 text-slate-200">

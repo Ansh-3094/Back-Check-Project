@@ -82,3 +82,53 @@ button {
   padding: var(--space-md);
   border-radius: 0.75rem;
 }
+
+.video-progress::-webkit-slider-thumb,
+.video-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: #ff2d2d;
+}
+
+.video-progress::-moz-range-thumb,
+.video-volume::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: #ff2d2d;
+}
+
+/* Global scrollbar theme */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--brand) var(--surface-strong);
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--surface-strong);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--brand), var(--brand-strong));
+  border-radius: 9999px;
+  border: 2px solid var(--surface-strong);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent), var(--brand));
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--surface-strong);
+}
