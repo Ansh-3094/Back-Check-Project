@@ -15,30 +15,60 @@ function SearchVideos() {
   const { query } = useParams();
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchParams, setSearchParms] = useSearchParams();
+  const normalizedQuery = (query || "").trim();
+  const mode = searchParams.get("mode");
+  const isEmptySearchMode = mode === "empty" && !normalizedQuery;
+  const [selectedFilter, setSelectedFilter] = useState({
+    sortBy: searchParams.get("sortBy") || "",
+    sortType: searchParams.get("sortType") || "",
+  });
 
   useEffect(() => {
     const sortType = searchParams.get("sortType");
     const sortBy = searchParams.get("sortBy");
-    dispatch(
-      getAllVideos({
-        query,
-        sortBy,
-        sortType,
-      }),
-    );
+
+    if (isEmptySearchMode) {
+      dispatch(makeVideosNull());
+      return () => dispatch(makeVideosNull());
+    }
+
+    const payload = {
+      sortBy,
+      sortType,
+    };
+
+    if (normalizedQuery) {
+      payload.query = normalizedQuery;
+    }
+
+    dispatch(getAllVideos(payload));
     setFilterOpen(false);
     return () => dispatch(makeVideosNull());
-  }, [dispatch, query, searchParams]);
+  }, [dispatch, normalizedQuery, searchParams, isEmptySearchMode]);
 
-  const handleSortParams = (newSortBy, newSortType = "asc") => {
-    setSearchParms({ sortBy: newSortBy, sortType: newSortType });
+  const handleSelectFilter = (newSortBy, newSortType = "asc") => {
+    setSelectedFilter({ sortBy: newSortBy, sortType: newSortType });
+  };
+
+  const handleApplyFilter = () => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set("sortBy", selectedFilter.sortBy);
+    nextParams.set("sortType", selectedFilter.sortType);
+    setSearchParms(nextParams);
+    setFilterOpen(false);
+  };
+
+  const isFilterSelected = (sortBy, sortType) => {
+    return (
+      selectedFilter.sortBy === sortBy && selectedFilter.sortType === sortType
+    );
   };
 
   if (loading) {
     return <HomeSkeleton />;
   }
 
-  if (videos?.totalDocs === 0) {
+  if (!isEmptySearchMode && videos?.totalDocs === 0) {
     return (
       <Container>
         <div className="app-panel rounded-xl p-3 sm:p-4 text-white">
@@ -61,60 +91,129 @@ function SearchVideos() {
 
         {filterOpen && (
           <div className="absolute left-0 top-14 z-40 flex w-full justify-center bg-transparent px-3">
-            <div className="relative h-96 w-full max-w-sm rounded-lg border border-slate-700 bg-(--surface-strong) p-5 shadow-xl">
+            <div className="relative w-full max-w-sm rounded-xl border border-(--line) bg-(--surface-strong) p-4 shadow-2xl shadow-black/40">
               <h1 className="text-lg font-semibold">Search filters</h1>
               <IoCloseCircleOutline
                 size={25}
-                className="absolute right-5 top-5 cursor-pointer"
+                className="absolute right-4 top-4 cursor-pointer text-slate-300 transition-colors hover:text-white"
                 onClick={() => setFilterOpen((prev) => !prev)}
               />
-              <table className="mt-4 w-full">
-                <tbody>
-                  <tr className="w-full border-b text-start">
-                    <th className="pb-2 text-left">SortBy</th>
-                  </tr>
-                  <tr className="flex cursor-pointer flex-col gap-2 pt-2 text-slate-300">
-                    <td onClick={() => handleSortParams("createdAt", "desc")}>
-                      Upload date <span className="text-xs">(Latest)</span>
-                    </td>
-                    <td onClick={() => handleSortParams("createdAt", "asc")}>
-                      Upload date <span className="text-xs">(Oldest)</span>
-                    </td>
-                    <td onClick={() => handleSortParams("views", "asc")}>
-                      View count <span className="text-xs">(Low to High)</span>
-                    </td>
-                    <td onClick={() => handleSortParams("views", "desc")}>
-                      View count <span className="text-xs">(High to Low)</span>
-                    </td>
-                    <td onClick={() => handleSortParams("duration", "asc")}>
-                      Duration <span className="text-xs">(Low to High)</span>
-                    </td>
-                    <td onClick={() => handleSortParams("duration", "desc")}>
-                      Duration <span className="text-xs">(High to Low)</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="mt-4 space-y-4">
+                <div className="border-b border-(--line) pb-3">
+                  <p className="text-sm font-medium text-slate-300">Sort By</p>
+                </div>
+
+                <div className="grid gap-2">
+                  {[
+                    {
+                      label: "Upload date",
+                      subLabel: "Latest",
+                      sortBy: "createdAt",
+                      sortType: "desc",
+                    },
+                    {
+                      label: "Upload date",
+                      subLabel: "Oldest",
+                      sortBy: "createdAt",
+                      sortType: "asc",
+                    },
+                    {
+                      label: "View count",
+                      subLabel: "Low to High",
+                      sortBy: "views",
+                      sortType: "asc",
+                    },
+                    {
+                      label: "View count",
+                      subLabel: "High to Low",
+                      sortBy: "views",
+                      sortType: "desc",
+                    },
+                    {
+                      label: "Duration",
+                      subLabel: "Low to High",
+                      sortBy: "duration",
+                      sortType: "asc",
+                    },
+                    {
+                      label: "Duration",
+                      subLabel: "High to Low",
+                      sortBy: "duration",
+                      sortType: "desc",
+                    },
+                  ].map((option) => {
+                    const selected = isFilterSelected(
+                      option.sortBy,
+                      option.sortType,
+                    );
+
+                    return (
+                      <button
+                        key={`${option.sortBy}-${option.sortType}`}
+                        type="button"
+                        onClick={() =>
+                          handleSelectFilter(option.sortBy, option.sortType)
+                        }
+                        className={`flex items-center justify-between rounded-lg border px-3 py-2 text-left transition-all ${
+                          selected
+                            ? "border-(--brand) bg-(--brand)/15 text-white"
+                            : "border-transparent bg-(--surface) text-slate-300 hover:border-(--line) hover:bg-(--surface-strong)"
+                        }`}
+                      >
+                        <span className="text-sm font-medium">
+                          {option.label}
+                        </span>
+                        <span className="text-xs text-slate-400">
+                          {option.subLabel}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="flex justify-end border-t border-(--line) pt-4">
+                  <button
+                    type="button"
+                    onClick={handleApplyFilter}
+                    className="rounded-lg bg-(--brand) px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-(--brand-strong)"
+                  >
+                    Filter
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        <div className="mb-20 grid max-h-[calc(100vh-180px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 xl:grid-cols-3">
-          {videos &&
-            videos?.docs?.map((video) => (
-              <VideoList
-                key={video?._id}
-                thumbnail={video?.thumbnail?.url}
-                duration={video?.duration}
-                title={video?.title}
-                views={video?.views}
-                avatar={video?.ownerDetails?.avatar?.url}
-                channelName={video?.ownerDetails?.username}
-                createdAt={video?.createdAt}
-                videoId={video?._id}
-              ></VideoList>
-            ))}
-        </div>
+        {isEmptySearchMode ? (
+          <div className="mb-20 flex min-h-[45vh] items-center justify-center rounded-xl border border-dashed border-(--line) bg-(--bg-soft) px-4 py-10 text-center text-(--text-dim)">
+            <div>
+              <p className="text-lg font-semibold text-white">
+                Start typing to search videos
+              </p>
+              <p className="mt-2 text-sm">
+                Videos are temporarily hidden until you enter a title.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="mb-20 grid max-h-[calc(100vh-180px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 xl:grid-cols-3">
+            {videos &&
+              videos?.docs?.map((video) => (
+                <VideoList
+                  key={video?._id}
+                  thumbnail={video?.thumbnail?.url}
+                  duration={video?.duration}
+                  title={video?.title}
+                  views={video?.views}
+                  avatar={video?.ownerDetails?.avatar?.url}
+                  channelName={video?.ownerDetails?.username}
+                  createdAt={video?.createdAt}
+                  videoId={video?._id}
+                ></VideoList>
+              ))}
+          </div>
+        )}
       </div>
     </Container>
   );

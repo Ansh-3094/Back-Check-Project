@@ -91,9 +91,6 @@ function ChannelHeader({
                 <p className="text-xs text-slate-400">
                   {localSubscribersCount && localSubscribersCount} Subscribers
                 </p>
-                <p className="text-xs text-slate-400">
-                  {subscribedCount && subscribedCount} Subscribed
-                </p>
               </div>
             </div>
             {user == userProfile && !edit && (

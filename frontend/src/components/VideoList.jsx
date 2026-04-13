@@ -42,8 +42,10 @@ function VideoList({
           )}
           <div>
             <h2 className="font-medium">{title}</h2>
-            <div className="text-xs space-x-1 text-slate-400">
-              <span>{views} Views</span>•<span>{timeAgo(createdAt)}</span>
+            <div className="text-xs text-slate-400">
+              <span>{views} Views</span>
+              <span className="mx-1.5">•</span>
+              <span>{timeAgo(createdAt)}</span>
             </div>
             {channelName && (
               <h2 className="text-xs space-x-1 text-slate-200">
