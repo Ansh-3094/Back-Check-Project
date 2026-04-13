@@ -14,7 +14,7 @@ function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log("[HomePage] mount: fetching videos page 1");
+    // console.log("[HomePage] mount: fetching videos page 1");
     dispatch(getAllVideos({ page: 1, limit: 10 }));
 
     return () => dispatch(makeVideosNull());
@@ -30,7 +30,7 @@ function HomePage() {
 
   const fetchMoreVideos = useCallback(() => {
     if (hasNextPage) {
-      console.log("[HomePage] fetchMoreVideos: fetching page", page + 1);
+      // console.log("[HomePage] fetchMoreVideos: fetching page", page + 1);
       dispatch(getAllVideos({ page: page + 1, limit: 10 }))
         .then(() => {
           setPage((prev) => prev + 1);

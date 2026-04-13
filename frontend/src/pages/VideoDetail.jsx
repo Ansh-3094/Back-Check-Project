@@ -96,10 +96,12 @@ function VideoDetail() {
                       commentId={comment?._id}
                       content={comment?.content}
                       createdAt={comment?.createdAt}
+                      updatedAt={comment?.updatedAt}
                       fullName={comment?.owner?.fullName}
                       isLiked={comment?.isLiked}
                       isDisliked={comment?.isDisliked}
                       likesCount={comment?.likesCount}
+                      ownerId={comment?.owner?._id || comment?.owner}
                       username={comment?.owner?.username}
                     />
                   ))}

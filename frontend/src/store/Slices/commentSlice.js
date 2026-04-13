@@ -13,7 +13,7 @@ export const createAComment = createAsyncThunk(
   "createAComment",
   async ({ videoId, content }) => {
     try {
-      console.log({ videoId, content });
+      // console.log({ videoId, content });
       const response = await axiosInstance.post(`/comment/${videoId}`, {
         content,
       });
@@ -47,7 +47,7 @@ export const deleteAComment = createAsyncThunk(
     try {
       const response = await axiosInstance.delete(`/comment/c/${commentId}`);
       toast.success(response.data.message);
-      console.log(response.data.data);
+      // console.log(response.data.data);
       return response.data.data;
     } catch (error) {
       // toast.error(error?.response?.data?.error);
@@ -96,6 +96,23 @@ const commentSlice = createSlice({
     builder.addCase(createAComment.fulfilled, (state, action) => {
       state.comments.unshift(action.payload);
       state.totalComments++;
+    });
+    builder.addCase(editAComment.fulfilled, (state, action) => {
+      const updatedComment = action.payload;
+      state.comments = state.comments.map((comment) =>
+        comment._id === updatedComment?._id
+          ? {
+              ...comment,
+              ...updatedComment,
+              // Keep populated owner object if edit response sends only owner id.
+              owner:
+                updatedComment?.owner &&
+                typeof updatedComment.owner === "object"
+                  ? updatedComment.owner
+                  : comment.owner,
+            }
+          : comment,
+      );
     });
     builder.addCase(deleteAComment.fulfilled, (state, action) => {
       state.comments = state.comments.filter(

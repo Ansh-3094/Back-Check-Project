@@ -43,7 +43,7 @@ export const getAllVideos = createAsyncThunk(
         params.sortType = sortType;
       }
 
-      console.log("[videoSlice/getAllVideos] params:", params);
+      // console.log("[videoSlice/getAllVideos] params:", params);
       const response = await axiosInstance.get("/video", { params });
 
       return response.data.data;
@@ -154,10 +154,10 @@ const videoSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getAllVideos.fulfilled, (state, action) => {
-      console.log("[videoSlice] getAllVideos fulfilled", {
-        docsLength: action.payload?.docs?.length,
-        totalDocs: action.payload?.totalDocs,
-      });
+      // console.log("[videoSlice] getAllVideos fulfilled", {
+      //   docsLength: action.payload?.docs?.length,
+      //   totalDocs: action.payload?.totalDocs,
+      // });
       state.loading = false;
       const currentPage = Number(action.meta?.arg?.page) || 1;
       const incomingDocs = action.payload?.docs || [];

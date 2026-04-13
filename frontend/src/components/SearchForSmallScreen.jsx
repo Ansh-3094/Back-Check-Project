@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Input from "./Input";
-import Button from "./Button";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 function SearchForSmallScreen({ open, setOpenSearch }) {
-  const { register, handleSubmit } = useForm();
+  const { handleSubmit } = useForm();
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
 
-  const search = (data) => {
-    const query = data?.query;
-    navigate(`/search/${query}`);
+  const search = () => {
+    const normalizedQuery = query.trim();
+
+    if (normalizedQuery) {
+      sessionStorage.setItem("hasActiveSearchQuery", "true");
+      navigate(`/search/${encodeURIComponent(normalizedQuery)}`);
+      setOpenSearch((prev) => !prev);
+      return;
+    }
+
+    const hadPreviousQuery =
+      sessionStorage.getItem("hasActiveSearchQuery") === "true";
+    navigate(`/search?mode=${hadPreviousQuery ? "reset" : "empty"}`);
     setOpenSearch((prev) => !prev);
   };
 
@@ -34,11 +44,9 @@ function SearchForSmallScreen({ open, setOpenSearch }) {
                 type="text"
                 placeholder="Search"
                 className="mr-2"
-                {...register("query", { required: true })}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
               />
-              <Button type="submit" variant="primary" size="md">
-                Search
-              </Button>
             </form>
           </div>
         </div>
