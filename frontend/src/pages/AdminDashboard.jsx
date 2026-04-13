@@ -46,7 +46,12 @@ function AdminDashboard() {
     dispatch(getChannelVideos());
   }, [dispatch, uploaded, publishToggled, deleting]);
 
-  window.scrollTo(0, 0);
+  useEffect(() => {
+    // Disable automatic scroll restoration to prevent page jump
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
 
   return (
     <>

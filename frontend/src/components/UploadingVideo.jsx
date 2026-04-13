@@ -44,7 +44,7 @@ function UploadingVideo({
           </div>
           <div className="border flex justify-start items-center p-1">
             <div className="mr-2">
-              <PiFilmReelFill size={25} className="text-purple-500" />
+              <PiFilmReelFill size={25} className="text-(--brand)" />
             </div>
             <div className="">
               <h1 className="text-sm font-semibold">{videoFileName}</h1>
@@ -53,7 +53,7 @@ function UploadingVideo({
                 {uploaded ? (
                   <>
                     <span className="text-xs flex items-center">
-                      <TiTick size={25} className="text-purple-500" />
+                      <TiTick size={25} className="text-(--brand)" />
                       Uploaded Successfully
                     </span>
                   </>

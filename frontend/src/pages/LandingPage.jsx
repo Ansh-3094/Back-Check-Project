@@ -105,7 +105,7 @@ const creators = [
       "https://plus.unsplash.com/premium_photo-1661721578455-d13b23ec66c8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Fit With sarah",
+    name: "Fit with Sarah",
     bio: "Simple fitness routines and wellness content for all levels.",
     profileImage:
       "https://images.unsplash.com/photo-1606663485553-432d79af0620?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -114,7 +114,7 @@ const creators = [
 
 function LandingPage() {
   return (
-    <div className="w-full pb-20 text-(--text) sm:pb-6">
+    <div className="h-screen w-full pb-20 text-(--text) sm:pb-6 no-scrollbar overflow-y-auto">
       <section className="app-panel rounded-xl p-6 sm:p-8">
         <div className="max-w-3xl space-y-4">
           <h1 className="text-3xl font-bold leading-tight sm:text-5xl">
@@ -244,7 +244,7 @@ function LandingPage() {
       <section className="mt-5 app-panel rounded-xl p-6 text-center sm:p-8">
         <h2 className="text-2xl font-semibold">Ready to start sharing?</h2>
         <p className="mt-2 text-(--text-dim)">
-          Create your channel and connect with your audience today.
+          Create your channel and connect with your audience today!
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-3">
           <Link
@@ -263,7 +263,7 @@ function LandingPage() {
       </section>
 
       <footer className="mt-5 app-panel rounded-xl p-5 sm:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-(--text-dim)">
+        <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-(--text-dim) pl-5">
           <div className="flex flex-wrap gap-4">
             <a href="#" className="hover:text-(--text)">
               About
@@ -281,7 +281,7 @@ function LandingPage() {
               Help
             </a>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pr-5">
             <a href="#" className="hover:text-(--text)">
               X
             </a>
@@ -289,7 +289,7 @@ function LandingPage() {
               LinkedIn
             </a>
             <a href="#" className="hover:text-(--text)">
-              YouTube
+              Instagram
             </a>
           </div>
         </div>

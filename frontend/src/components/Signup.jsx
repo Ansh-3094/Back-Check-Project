@@ -69,7 +69,7 @@ function SignUp() {
 
   return (
     <>
-      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8">
+      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8 no-scrollbar overflow-hidden">
         <div className="app-panel flex w-full max-w-xl flex-col items-center justify-center space-y-2 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2">
             <Logo textSize="text-3xl" size="40" noLink />
@@ -78,12 +78,12 @@ function SignUp() {
             onSubmit={handleSubmit(submit)}
             className="space-y-4 p-2 text-sm sm:w-96 w-full"
           >
-            <div className="relative h-28 w-full bg-(--surface-strong)">
+            <div className="relative h-28 w-full">
               <div className="w-full h-full">
                 <GetImagePreview
                   name="coverImage"
                   control={control}
-                  className="w-full h-28 object-cover border-none border-slate-900"
+                  className="w-full h-28 object-cover border-none rounded"
                   cameraIcon
                 />
                 <div className="absolute bottom-2 right-2 cursor-default text-sm hover:text-(--accent)">

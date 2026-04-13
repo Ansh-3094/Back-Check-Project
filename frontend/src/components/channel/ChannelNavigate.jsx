@@ -2,10 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function ChannelNavigate({ username, edit }) {
-  const baseTabClass = "px-3 py-2 transition-colors duration-150";
+  const baseTabClass = "px-3 py-2 transition-all duration-150 relative";
   const activeTabClass =
-    "border-b-2 border-(--brand) text-(--brand) font-semibold";
-  const inactiveTabClass = "text-slate-300 hover:text-white";
+    "text-(--brand) font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-(--brand)";
+  const inactiveTabClass = "text-slate-400 hover:text-slate-200";
 
   const getTabClass = (isActive) =>
     `${baseTabClass} ${isActive ? activeTabClass : inactiveTabClass}`;
