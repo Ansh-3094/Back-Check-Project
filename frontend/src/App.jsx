@@ -54,7 +54,7 @@ function App() {
             }
           />
           <Route
-            path="/search/:query"
+            path="/search/:query?"
             element={
               <AuthLayout authentication>
                 <SearchVideos />
@@ -202,11 +202,38 @@ function App() {
         position="top-right"
         reverseOrder={true}
         toastOptions={{
+          style: {
+            borderRadius: "0.75rem",
+            background: "var(--surface)",
+            color: "var(--text)",
+            border: "1px solid var(--line)",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+          },
           error: {
-            style: { borderRadius: "0", color: "red" },
+            style: {
+              borderRadius: "0.75rem",
+              background: "var(--surface)",
+              color: "var(--accent)",
+              border: "1px solid var(--brand)",
+              boxShadow: "0 4px 12px rgba(255, 59, 48, 0.2)",
+            },
+            iconTheme: {
+              primary: "var(--brand)",
+              secondary: "var(--surface)",
+            },
           },
           success: {
-            style: { borderRadius: "0", color: "green" },
+            style: {
+              borderRadius: "0.75rem",
+              background: "var(--surface)",
+              color: "var(--text)",
+              border: "1px solid var(--success)",
+              boxShadow: "0 4px 12px rgba(34, 197, 94, 0.2)",
+            },
+            iconTheme: {
+              primary: "var(--success)",
+              secondary: "var(--surface)",
+            },
           },
           duration: 2000,
         }}

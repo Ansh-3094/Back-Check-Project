@@ -26,7 +26,11 @@ function AuthLayout({ children, authentication }) {
     return <Navigate to="/explore" replace />;
   }
 
-  return children;
+  return (
+    <div className="no-scrollbar overflow-hidden h-screen w-screen">
+      {children}
+    </div>
+  );
 }
 
 export default AuthLayout;

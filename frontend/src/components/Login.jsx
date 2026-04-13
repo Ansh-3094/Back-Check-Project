@@ -59,7 +59,7 @@ function Login() {
 
   return (
     <>
-      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8">
+      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8 no-scrollbar overflow-hidden">
         <div className="app-panel mt-20 flex w-full max-w-xl flex-col items-center justify-center space-y-5 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2 mt-5">
             <Logo textSize="text-3xl" size="40" noLink />

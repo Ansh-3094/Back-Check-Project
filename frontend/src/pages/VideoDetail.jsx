@@ -88,8 +88,8 @@ function VideoDetail() {
                 fetchMore={fetchMoreComments}
                 hasNextPage={hasNextPage}
               >
-                <div className="mb-20 w-full sm:mb-0">
-                  {comments?.map((comment) => (
+                <div className="mb-20 w-full sm:mb-0 ">
+                  {comments?.map((comment, index) => (
                     <CommentList
                       key={comment?._id}
                       avatar={comment?.owner?.avatar}
@@ -102,6 +102,7 @@ function VideoDetail() {
                       isDisliked={comment?.isDisliked}
                       likesCount={comment?.likesCount}
                       ownerId={comment?.owner?._id || comment?.owner}
+                      isLast={index === comments.length - 1}
                       username={comment?.owner?.username}
                     />
                   ))}

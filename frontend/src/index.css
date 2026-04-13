@@ -132,3 +132,83 @@ button {
 *::-webkit-scrollbar-corner {
   background: var(--surface-strong);
 }
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.no-scrollbar.overflow-hidden {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.no-scrollbar.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Hide scrollbar and prevent scrolling */
+body.no-scrollbar-global,
+html.no-scrollbar-global {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+body.no-scrollbar-global::-webkit-scrollbar,
+html.no-scrollbar-global::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* React Hot Toast Styling */
+[data-react-hot-toast] {
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+.react-hot-toast {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 0.75rem !important;
+  padding: 14px 16px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.react-hot-toast[data-type="success"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--success) !important;
+  color: var(--text) !important;
+}
+
+.react-hot-toast[data-type="error"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--brand) !important;
+  color: var(--accent) !important;
+}
+
+.react-hot-toast[data-type="loading"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text) !important;
+}
+
+/* Hide body scrollbar when no-scrollbar is applied */
+.no-scrollbar {
+  scrollbar-width: none !important;
+}
+
+html.no-scrollbar,
+body.no-scrollbar {
+  scrollbar-width: none;
+  overflow: hidden;
+}
+
+html.no-scrollbar::-webkit-scrollbar,
+body.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
