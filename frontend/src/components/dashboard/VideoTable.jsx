@@ -5,7 +5,7 @@ import TogglePublish from "../TogglePublish";
 function VideoTable({ videos, setPopUp, setVideoDetails }) {
   return (
     <>
-      <section className="mx-auto w-full overflow-x-scroll">
+      <section className="mx-auto w-full overflow-x-hidden">
         <table className="min-w-full border border-slate-500">
           <thead>
             <tr>
@@ -57,7 +57,7 @@ function VideoTable({ videos, setPopUp, setVideoDetails }) {
                   <span className="flex gap-3 justify-start">
                     <ImBin
                       size={20}
-                      className="cursor-pointer hover:text-purple-500"
+                      className="cursor-pointer hover:text-red-500"
                       onClick={() => {
                         setPopUp((prev) => ({
                           ...prev,
@@ -68,7 +68,7 @@ function VideoTable({ videos, setPopUp, setVideoDetails }) {
                     />
                     <GrEdit
                       size={20}
-                      className="cursor-pointer hover:text-purple-500"
+                      className="cursor-pointer hover:text-red-500"
                       onClick={() => {
                         setPopUp((prev) => ({
                           ...prev,

@@ -227,15 +227,31 @@ const getVideoById = asyncHandler(async (req, res) => {
     subsData.subscribers.some(
       (id) => id && id.toString() === currentUserId.toString()
     );
-  // increment views and update watch history for logged-in user
+  // Count one view per logged-in user per video.
   const currentViews = Number(video.views || 0);
-  await Video.findByIdAndUpdate(videoId, {
-    $set: { views: String(currentViews + 1) },
-  });
+  const videoObjectId = new mongoose.Types.ObjectId(videoId);
+  let shouldIncrementView = true;
+
+  if (currentUserId) {
+    const hasAlreadyViewed = await User.exists({
+      _id: currentUserId,
+      watchHistory: videoObjectId,
+    });
+
+    shouldIncrementView = !hasAlreadyViewed;
+  }
+
+  const effectiveViews = shouldIncrementView ? currentViews + 1 : currentViews;
+
+  if (shouldIncrementView) {
+    await Video.findByIdAndUpdate(videoId, {
+      $set: { views: String(effectiveViews) },
+    });
+  }
 
   if (currentUserId) {
     await User.findByIdAndUpdate(currentUserId, {
-      $addToSet: { watchHistory: videoId },
+      $addToSet: { watchHistory: videoObjectId },
     });
   }
 
@@ -245,7 +261,7 @@ const getVideoById = asyncHandler(async (req, res) => {
     description: video.description,
     videoFile: video.videoFile,
     thumbnail: video.thumbnail,
-    views: video.views,
+    views: String(effectiveViews),
     createdAt: video.createdAt,
     duration: video.duration,
     likesCount: likesData.likesCount || 0,
