@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Input2, UploadingVideo } from "./index";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { publishAvideo } from "../store/Slices/videoSlice";
+import { publishAvideo, updateUploadState } from "../store/Slices/videoSlice";
 import { IoCloseCircleOutline } from "./icons";
 import GetImagePreview from "./GetImagePreview";
 
 function UploadVideo({ setUploadVideoPopup }) {
   const [videoName, setVideoName] = useState("");
   const [videoSize, setVideoSize] = useState(0);
+  const uploadRequestRef = useRef(null);
   const {
     handleSubmit,
     register,
@@ -19,16 +20,47 @@ function UploadVideo({ setUploadVideoPopup }) {
   const uploading = useSelector((state) => state.video.uploading);
   const uploaded = useSelector((state) => state.video.uploaded);
 
+  useEffect(() => {
+    if (!uploaded) {
+      return;
+    }
+
+    setUploadVideoPopup((prev) => ({
+      ...prev,
+      uploadVideo: false,
+    }));
+    dispatch(updateUploadState());
+  }, [dispatch, setUploadVideoPopup, uploaded]);
+
   const publishVideo = async (data) => {
     setVideoSize(Math.floor(data.videoFile[0].size / (1024 * 1024)));
-    await dispatch(publishAvideo(data));
+    const uploadRequest = dispatch(publishAvideo(data));
+    uploadRequestRef.current = uploadRequest;
+
+    try {
+      await uploadRequest;
+    } finally {
+      if (uploadRequestRef.current === uploadRequest) {
+        uploadRequestRef.current = null;
+      }
+    }
+  };
+
+  const handleCancelUpload = () => {
+    uploadRequestRef.current?.abort?.();
+    uploadRequestRef.current = null;
+    setUploadVideoPopup((prev) => ({
+      ...prev,
+      uploadVideo: false,
+    }));
+    dispatch(updateUploadState());
   };
 
   if (uploading) {
     return (
       <>
         <UploadingVideo
-          setUploadVideoPopup={setUploadVideoPopup}
+          onCancel={handleCancelUpload}
           videoFileName={videoName}
           fileSize={videoSize}
         />
@@ -40,7 +72,7 @@ function UploadVideo({ setUploadVideoPopup }) {
     return (
       <>
         <UploadingVideo
-          setUploadVideoPopup={setUploadVideoPopup}
+          onCancel={handleCancelUpload}
           videoFileName={videoName}
           fileSize={videoSize}
           uploaded={true}

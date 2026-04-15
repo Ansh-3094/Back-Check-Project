@@ -1,26 +1,9 @@
 import React from "react";
 import { PiFilmReelFill } from "react-icons/pi";
 import { Spinner, Button } from "./index";
-import { IoCloseCircleOutline, TiTick } from "./icons";
-import { useDispatch } from "react-redux";
-import { updateUploadState } from "../store/Slices/videoSlice";
+import { TiTick } from "./icons";
 
-function UploadingVideo({
-  videoFileName,
-  fileSize,
-  setUploadVideoPopup,
-  uploaded,
-}) {
-  const dispatch = useDispatch();
-
-  const handleCancelAndFinish = () => {
-    setUploadVideoPopup((prev) => ({
-      ...prev,
-      uploadVideo: false,
-    }));
-    dispatch(updateUploadState());
-  };
-
+function UploadingVideo({ videoFileName, fileSize, onCancel, uploaded }) {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -36,11 +19,6 @@ function UploadingVideo({
                 Track your video uploading process.
               </span>
             </div>
-            <IoCloseCircleOutline
-              size={25}
-              className="cursor-pointer"
-              onClick={handleCancelAndFinish}
-            />
           </div>
           <div className="border flex justify-start items-center p-1">
             <div className="mr-2">
@@ -71,17 +49,9 @@ function UploadingVideo({
               variant="secondary"
               size="md"
               className="flex-1"
-              onClick={handleCancelAndFinish}
+              onClick={onCancel}
             >
               Cancel
-            </Button>
-            <Button
-              variant="primary"
-              size="md"
-              className="flex-1"
-              onClick={handleCancelAndFinish}
-            >
-              Finish
             </Button>
           </div>
         </div>

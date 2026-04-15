@@ -11,6 +11,11 @@ function ChannelVideos() {
   const [activeButton, setActiveButton] = useState("button1");
 
   useEffect(() => {
+    if (!userId) {
+      dispatch(makeVideosNull());
+      return;
+    }
+
     const sortBy = searchParams?.sortBy;
     const sortType = searchParams?.sortType;
     dispatch(getAllVideos({ userId, sortBy, sortType }));

@@ -54,22 +54,25 @@ export const getAllVideos = createAsyncThunk(
   },
 );
 
-export const publishAvideo = createAsyncThunk("publishAvideo", async (data) => {
-  const formData = new FormData();
-  formData.append("title", data.title);
-  formData.append("description", data.description);
-  formData.append("videoFile", data.videoFile[0]);
-  formData.append("thumbnail", data.thumbnail[0]);
+export const publishAvideo = createAsyncThunk(
+  "publishAvideo",
+  async (data, { signal }) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("videoFile", data.videoFile[0]);
+    formData.append("thumbnail", data.thumbnail[0]);
 
-  try {
-    const response = await axiosInstance.post("/video", formData);
-    toast.success(response?.data?.message);
-    return response.data.data;
-  } catch (error) {
-    // toast.error(error?.response?.data?.error);
-    throw error;
-  }
-});
+    try {
+      const response = await axiosInstance.post("/video", formData, { signal });
+      toast.success(response?.data?.message);
+      return response.data.data;
+    } catch (error) {
+      // toast.error(error?.response?.data?.error);
+      throw error;
+    }
+  },
+);
 
 export const updateAVideo = createAsyncThunk(
   "updateAVideo",
@@ -184,12 +187,20 @@ const videoSlice = createSlice({
       state.uploading = false;
       state.uploaded = true;
     });
+    builder.addCase(publishAvideo.rejected, (state) => {
+      state.uploading = false;
+      state.uploaded = false;
+    });
     builder.addCase(updateAVideo.pending, (state) => {
       state.uploading = true;
     });
     builder.addCase(updateAVideo.fulfilled, (state) => {
       state.uploading = false;
       state.uploaded = true;
+    });
+    builder.addCase(updateAVideo.rejected, (state) => {
+      state.uploading = false;
+      state.uploaded = false;
     });
     builder.addCase(deleteAVideo.pending, (state) => {
       state.deleting = true;
