@@ -89,7 +89,7 @@ function CommentsList({
               <img
                 src={avatarUrl}
                 alt="comment avatar"
-                className="w-10 h-10 object-cover rounded-full"
+                className="w-13 h-11 object-cover rounded-full mb-4"
               />
             );
           })()}
@@ -97,7 +97,7 @@ function CommentsList({
         <div className="w-full flex flex-col gap-1 relative">
           <div className="flex items-start gap-2 pr-8">
             <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2 pt-3">
                 <h2 className="text-xs font-medium text-white">
                   {displayName}
                 </h2>
@@ -118,7 +118,7 @@ function CommentsList({
               <button
                 type="button"
                 aria-label="Comment actions"
-                className="flex h-8 w-8 items-center justify-center rounded-full text-slate-300 transition hover:bg-(--surface-strong) hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full text-slate-300 transition hover:bg-(--surface-strong) hover:text-white pt-3"
                 onClick={() => {
                   setEditState((prevState) => ({
                     ...prevState,
@@ -213,9 +213,16 @@ function CommentsList({
             size={17}
           />
 
-          {!isLast && <div className="mt-4 h-px w-full bg-black/60" />}
+          {/* {!isLast && <div className="mt-4 h-px w-full bg-black/60" />} */}
         </div>
       </div>
+      <hr
+        style={{
+          width: "90%",
+          margin: "1px auto",
+          height: "2px",
+        }}
+      />
     </>
   );
 }

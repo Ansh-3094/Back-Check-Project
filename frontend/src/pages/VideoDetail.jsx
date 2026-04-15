@@ -80,7 +80,15 @@ function VideoDetail() {
                 videoId={video?._id}
                 channelId={video?.owner?._id}
               />
-              <div className="px-3 font-semibold text-white sm:px-5">
+              <hr
+                className="mb-5 mt-5"
+                style={{
+                  height: "1px",
+                  width: "95%",
+                  margin: "20px auto",
+                }}
+              />
+              <div className="px-3 font-semibold text-white xl:px-5 text-xl">
                 {totalComments} Comments
               </div>
               <TweetAndComment comment={true} videoId={video?._id} />
@@ -88,7 +96,7 @@ function VideoDetail() {
                 fetchMore={fetchMoreComments}
                 hasNextPage={hasNextPage}
               >
-                <div className="mb-20 w-full sm:mb-0 ">
+                <div className="mb-20 w-full sm:mb-0">
                   {comments?.map((comment, index) => (
                     <CommentList
                       key={comment?._id}
@@ -115,11 +123,13 @@ function VideoDetail() {
               </InfiniteScroll>
             </div>
 
-            <aside className="w-full xl:sticky xl:top-3 xl:max-h-[calc(100vh-105px)] xl:w-2/5 xl:overflow-y-auto">
+            <aside className="no-scrollbar w-full xl:sticky xl:top-3 xl:max-h-[calc(100vh-105px)] xl:w-2/5 xl:overflow-y-auto">
               <div className="rounded-lg border border-slate-700 bg-(--bg-soft) p-2 sm:p-3">
-                <h2 className="mb-2 px-1 text-sm font-semibold text-white">
-                  Up next
+                <h2 className="mb-2 px-1 text-xl font-semibold text-white">
+                  Up Next
                 </h2>
+                <hr className="text-red-200" />
+                <br />
                 <div className="space-y-1">
                   {relatedVideos.length ? (
                     relatedVideos.map((relatedVideo) => (

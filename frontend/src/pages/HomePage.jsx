@@ -50,12 +50,8 @@ function HomePage() {
           next={fetchMoreVideos}
           hasMore={hasNextPage}
           loader={isLoading && <HomeSkeleton />}
-          scrollableTarget="scrollable-container"
         >
-          <div
-            className="mb-20 grid max-h-[calc(100vh-140px)] w-full grid-cols-1 gap-4 overflow-y-auto pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
-            id="scrollable-container"
-          >
+          <div className="mb-20 grid w-full grid-cols-1 gap-4 pr-1 sm:mb-0 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
             {videos?.map((video) => (
               <VideoList
                 key={video._id}

@@ -212,3 +212,22 @@ html.no-scrollbar::-webkit-scrollbar,
 body.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes subscribe-pop {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
+  45% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 6px rgba(255, 59, 48, 0.18);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
+}
+
+.subscribe-pop {
+  animation: subscribe-pop 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}

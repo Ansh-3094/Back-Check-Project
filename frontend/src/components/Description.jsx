@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { timeAgo } from "../helpers/timeAgo";
 import { Like, Button } from "./index";
 import { useDispatch } from "react-redux";
@@ -23,13 +23,26 @@ function Description({
   const [localIsSubscribed, setLocalIsSubscribed] = useState(isSubscribed);
   const [localSubscribersCount, setLocalSubscribersCount] =
     useState(subscribersCount);
+  const [subscribeAnimating, setSubscribeAnimating] = useState(false);
+  const subscribeAnimationTimeoutRef = useRef(null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      if (subscribeAnimationTimeoutRef.current) {
+        clearTimeout(subscribeAnimationTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSubscribe = () => {
     if (!channelId) {
       console.error("[Description] Missing channelId for subscription");
       return;
     }
+
+    const isSubscribing = !localIsSubscribed;
+
     dispatch(toggleSubscription(channelId));
     setLocalIsSubscribed((prev) => !prev);
     if (localIsSubscribed) {
@@ -37,13 +50,23 @@ function Description({
     } else {
       setLocalSubscribersCount((prev) => prev + 1);
     }
+
+    if (isSubscribing) {
+      setSubscribeAnimating(true);
+      if (subscribeAnimationTimeoutRef.current) {
+        clearTimeout(subscribeAnimationTimeoutRef.current);
+      }
+      subscribeAnimationTimeoutRef.current = setTimeout(() => {
+        setSubscribeAnimating(false);
+      }, 420);
+    }
   };
 
   const handleSubsribe = () => {};
   return (
     <>
       <section className="sm:max-w-4xl w-full text-white sm:p-5 p-2 space-y-2">
-        <div className="border-b border-slate-700">
+        <div>
           <div className="space-y-2 mb-2">
             <h1 className="sm:text-2xl font-semibold">{title}</h1>
             <div className="flex items-center justify-between sm:justify-start sm:gap-5">
@@ -84,12 +107,22 @@ function Description({
                   onClick={handleSubscribe}
                   variant="primary"
                   size="lg"
-                  className="min-w-[100px] py-2"
+                  className={`min-w-25 py-2 ${subscribeAnimating ? "subscribe-pop" : ""}`}
                 >
                   {localIsSubscribed ? "Subscribed" : "Subscribe"}
                 </Button>
               </div>
             </div>
+
+            <hr
+              className="mb-5 mt-5"
+              style={{
+                height: "2px",
+                backgroundColor: "red",
+                border: "none",
+                width: "100%",
+              }}
+            />
           </div>
         </div>
         <p className="text-xs bg-(--surface-strong) rounded-lg p-2 outline-none">

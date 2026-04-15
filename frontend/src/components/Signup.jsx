@@ -2,7 +2,7 @@ import React from "react";
 import { Logo, Button, Input } from "./index";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { createAccount, userLogin } from "../store/Slices/authSlice.js";
+import { createAccount } from "../store/Slices/authSlice.js";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import LoginSkeleton from "../skeleton/LoginSkeleton.jsx";
@@ -32,10 +32,6 @@ function SignUp() {
   const submit = async (data) => {
     try {
       await dispatch(createAccount(data)).unwrap();
-
-      const username = data?.username;
-      const password = data?.password;
-      await dispatch(userLogin({ username, password })).unwrap();
 
       navigate("/terms&conditions");
     } catch (error) {
@@ -69,8 +65,8 @@ function SignUp() {
 
   return (
     <>
-      <div className="flex min-h-screen w-full items-start justify-center p-3 text-white sm:mt-8 no-scrollbar overflow-hidden">
-        <div className="app-panel flex w-full max-w-xl flex-col items-center justify-center space-y-2 rounded-xl border border-slate-700 p-4">
+      <div className="no-scrollbar flex h-screen w-full items-start justify-center overflow-x-hidden overflow-y-auto px-3 py-3 text-white sm:py-5">
+        <div className="app-panel mx-auto flex w-full max-w-xl flex-col items-center justify-center space-y-2 rounded-xl border border-slate-700 p-4">
           <div className="flex items-center gap-2">
             <Logo textSize="text-3xl" size="40" noLink />
           </div>

@@ -41,8 +41,10 @@ export const createAccount = createAsyncThunk(
       }
 
       const response = await axiosInstance.post("/users/register", formData);
+      const accessToken = response?.data?.data?.accessToken;
+      setAccessToken(accessToken);
       toast.success("Registered successfully!!!");
-      return response.data;
+      return response?.data?.data?.user;
     } catch (error) {
       const message =
         error?.response?.data?.message ||
@@ -170,8 +172,10 @@ const authSlice = createSlice({
     builder.addCase(createAccount.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(createAccount.fulfilled, (state) => {
+    builder.addCase(createAccount.fulfilled, (state, action) => {
       state.loading = false;
+      state.status = true;
+      state.userData = action.payload;
     });
     builder.addCase(createAccount.rejected, (state) => {
       state.loading = false;
